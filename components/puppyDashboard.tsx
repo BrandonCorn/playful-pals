@@ -23,17 +23,8 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+
 import { Input } from '@/components/ui/input';
-import {
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenu
-} from '@/components/ui/dropdown-menu';
 import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card';
 import {
   SelectValue,
@@ -42,241 +33,128 @@ import {
   SelectContent,
   Select
 } from '@/components/ui/select';
-import {
-  PawPrintIcon,
-  BellIcon,
-  HomeIcon,
-  CalendarIcon,
-  UsersIcon,
-  LandmarkIcon,
-  SearchIcon
-} from './icons';
+import { PawPrintIcon } from './icons';
 
 export function PuppyDashboard() {
   return (
-    <div className="grid min-h-screen w-full grid-cols-[280px_1fr] bg-gray-100 dark:bg-gray-950">
-      <div className="hidden border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-[60px] items-center border-b px-6">
-            <Link className="flex items-center gap-2 font-semibold" href="#">
-              <PawPrintIcon className="h-6 w-6" />
-              <span>Paws & Claws</span>
-            </Link>
-            <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
-              <BellIcon className="h-4 w-4" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
-          </div>
-          <div className="flex-1 overflow-auto py-2">
-            <nav className="grid items-start px-4 text-sm font-medium">
-              <Link
-                className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50"
-                href="#"
-              >
-                <HomeIcon className="h-4 w-4" />
-                Dashboard
-              </Link>
-              <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <CalendarIcon className="h-4 w-4" />
-                Appointments
-              </Link>
-              <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <UsersIcon className="h-4 w-4" />
-                Customers
-              </Link>
-              <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <PawPrintIcon className="h-4 w-4" />
-                Animals
-              </Link>
-              <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <LandmarkIcon className="h-4 w-4" />
-                Financials
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <header className="flex h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
-          <Link className="lg:hidden" href="#">
-            <PawPrintIcon className="h-6 w-6" />
-            <span className="sr-only">Home</span>
-          </Link>
-          <div className="w-full flex-1">
-            <form>
-              <div className="relative">
-                <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-                <Input
-                  className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
-                  placeholder="Search"
-                  type="search"
-                />
+    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card className="flex flex-col h-full">
+          <CardHeader>
+            <CardTitle>Animals On Site</CardTitle>
+            <div className="flex items-center gap-2">
+              <Select>
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Filter by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="name">Name</SelectItem>
+                  <SelectItem value="type">Type</SelectItem>
+                  <SelectItem value="service">Service</SelectItem>
+                </SelectContent>
+              </Select>
+              <Input
+                className="w-full bg-white shadow-none appearance-none pl-4 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
+                placeholder="Search"
+                type="search"
+              />
+            </div>
+          </CardHeader>
+          <CardContent className="flex-1 grid gap-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <div>
+                  <div className="font-medium">Buddy</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Dog
+                  </div>
+                </div>
               </div>
-            </form>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className="rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800"
-                size="icon"
-                variant="ghost"
-              >
-                <img
-                  alt="Avatar"
-                  className="rounded-full"
-                  height="32"
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: '32/32',
-                    objectFit: 'cover'
-                  }}
-                  width="32"
-                />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="flex flex-col h-full">
-              <CardHeader>
-                <CardTitle>Animals On Site</CardTitle>
-                <div className="flex items-center gap-2">
-                  <Select>
-                    <SelectTrigger className="w-[150px]">
-                      <SelectValue placeholder="Filter by" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="name">Name</SelectItem>
-                      <SelectItem value="type">Type</SelectItem>
-                      <SelectItem value="service">Service</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Input
-                    className="w-full bg-white shadow-none appearance-none pl-4 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
-                    placeholder="Search"
-                    type="search"
-                  />
-                </div>
-              </CardHeader>
-              <CardContent className="flex-1 grid gap-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <div className="font-medium">Buddy</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        Dog
-                      </div>
-                    </div>
+              <div className="text-sm font-medium">Grooming</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <div>
+                  <div className="font-medium">Whiskers</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Cat
                   </div>
-                  <div className="text-sm font-medium">Grooming</div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <div className="font-medium">Whiskers</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        Cat
-                      </div>
-                    </div>
+              </div>
+              <div className="text-sm font-medium">Boarding</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <div>
+                  <div className="font-medium">Daisy</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Rabbit
                   </div>
-                  <div className="text-sm font-medium">Boarding</div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <div className="font-medium">Daisy</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        Rabbit
-                      </div>
-                    </div>
+              </div>
+              <div className="text-sm font-medium">Daycare</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <div>
+                  <div className="font-medium">Buddy</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Dog
                   </div>
-                  <div className="text-sm font-medium">Daycare</div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <div className="font-medium">Buddy</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        Dog
-                      </div>
-                    </div>
+              </div>
+              <div className="text-sm font-medium">Grooming</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <div>
+                  <div className="font-medium">Whiskers</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Cat
                   </div>
-                  <div className="text-sm font-medium">Grooming</div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <PawPrintIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <div className="font-medium">Whiskers</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        Cat
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-sm font-medium">Boarding</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="flex flex-col h-full">
-              <CardHeader>
-                <CardTitle>Daily Financials</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1 grid gap-4">
-                <div className="flex items-center justify-between">
-                  <div>Total Revenue</div>
-                  <div className="text-2xl font-bold">$1,250</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>Appointments</div>
-                  <div className="text-sm font-medium">15</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>Average Ticket</div>
-                  <div className="text-sm font-medium">$83</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>Total Revenue</div>
-                  <div className="text-2xl font-bold">$1,250</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>Appointments</div>
-                  <div className="text-sm font-medium">15</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>Average Ticket</div>
-                  <div className="text-sm font-medium">$83</div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
+              </div>
+              <div className="text-sm font-medium">Boarding</div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="flex flex-col h-full">
+          <CardHeader>
+            <CardTitle>Daily Financials</CardTitle>
+          </CardHeader>
+          <CardContent className="flex-1 grid gap-4">
+            <div className="flex items-center justify-between">
+              <div>Total Revenue</div>
+              <div className="text-2xl font-bold">$1,250</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div>Appointments</div>
+              <div className="text-sm font-medium">15</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div>Average Ticket</div>
+              <div className="text-sm font-medium">$83</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div>Total Revenue</div>
+              <div className="text-2xl font-bold">$1,250</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div>Appointments</div>
+              <div className="text-sm font-medium">15</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div>Average Ticket</div>
+              <div className="text-sm font-medium">$83</div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </div>
+    </main>
   );
 }
