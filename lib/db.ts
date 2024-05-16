@@ -4,6 +4,7 @@ import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { pgTable, serial, varchar } from 'drizzle-orm/pg-core';
 import { eq, ilike } from 'drizzle-orm';
+import { users } from './schema';
 
 export const db = drizzle(
   neon(process.env.POSTGRES_URL!, {
@@ -12,13 +13,6 @@ export const db = drizzle(
     }
   })
 );
-
-const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 50 }),
-  username: varchar('username', { length: 50 }),
-  email: varchar('email', { length: 50 })
-});
 
 export type SelectUser = typeof users.$inferSelect;
 
@@ -50,6 +44,6 @@ export async function getUsers(
   return { users: moreUsers, newOffset };
 }
 
-export async function deleteUserById(id: number) {
+export async function deleteUserById(id: string) {
   await db.delete(users).where(eq(users.id, id));
 }
