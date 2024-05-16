@@ -2,16 +2,16 @@ import 'server-only';
 
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { pgTable, serial, varchar } from 'drizzle-orm/pg-core';
 import { eq, ilike } from 'drizzle-orm';
 import { users } from './schema';
+import * as schema from './schema';
 
 export const db = drizzle(
   neon(process.env.POSTGRES_URL!, {
     fetchOptions: {
       cache: 'no-store'
     }
-  })
+  }), { schema }
 );
 
 export type SelectUser = typeof users.$inferSelect;
