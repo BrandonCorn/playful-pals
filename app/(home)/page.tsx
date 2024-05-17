@@ -2,10 +2,15 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PawPrintIcon } from '@/components/icons';
 import { signIn } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 
 async function login(formData: FormData) {
   'use server';
-  await signIn();
+  try {
+    await signIn('github', { callbackUrl: '/dashboard' });
+  } catch (err) {
+    throw err;
+  }
 }
 
 export default function Page() {
