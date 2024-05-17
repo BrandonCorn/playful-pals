@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/sfJei0lhbF4
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PawPrintIcon } from '@/components/icons';
@@ -29,12 +24,12 @@ export default function Component() {
           </div>
           <div className="flex justify-center">
             <img
-              alt="Animals"
-              className="max-w-full"
-              height={300}
-              src="/placeholder.svg"
+              alt="dog"
+              className="max-w-full border-solid rounded-md"
+              height={267}
+              src="/dro.jpeg"
               style={{
-                aspectRatio: '400/300',
+                aspectRatio: '300/400',
                 objectFit: 'cover'
               }}
               width={400}
