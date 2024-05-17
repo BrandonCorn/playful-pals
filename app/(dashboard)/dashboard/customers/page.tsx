@@ -5,8 +5,6 @@
  */
 
 import CustomerMenu from '@/components/menus/customerMenu';
-import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
-import Link from 'next/link';
 import {
   PaginationPrevious,
   PaginationItem,
