@@ -9,14 +9,16 @@ export default function Page() {
       <header className="flex items-center justify-between px-6 py-4">
         <Link className="flex items-center gap-2" href="#">
           <PawPrintIcon className="h-8 w-8 text-[#2563EB]" />
-          <span className="text-2xl font-bold text-[#2563EB]">Paw Pals</span>
+          <span className="text-2xl font-bold text-[#2563EB]">
+            Playful Pals
+          </span>
         </Link>
       </header>
       <main className="flex-1 px-6 py-12 md:py-24">
         <div className="mx-auto max-w-4xl space-y-8 text-center">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold text-[#2563EB] md:text-6xl">
-              Welcome to Paw Pals
+              Welcome to Playful Pals
             </h1>
             <p className="text-lg text-[#6B7280] dark:text-[#D1D5DB]">
               Manage your animal daycare, boarding, grooming, and daycare
