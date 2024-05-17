@@ -6,7 +6,7 @@ export type InsertUser = typeof customers.$inferInsert;
 
 export async function createCustomer(customer: InsertUser) {
   try {
-    return db.insert(customers).values(customer);
+    return db.insert(customers).values(customer).returning();
   } catch (err) {
     console.error('error creating customer');
     throw err;

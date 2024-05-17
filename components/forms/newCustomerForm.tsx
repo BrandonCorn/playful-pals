@@ -29,41 +29,59 @@ export default function NewCustomerForm() {
             Fill out the form to add a new customer to the system.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <form className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right" htmlFor="name">
-              Name
+              First Name
             </Label>
-            <Input className="col-span-3" id="name" />
+            <Input className="col-span-3" id="name" required />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right" htmlFor="name">
+              Last Name
+            </Label>
+            <Input className="col-span-3" id="name" required />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right" htmlFor="email">
               Email
             </Label>
-            <Input className="col-span-3" id="email" type="email" />
+            <Input className="col-span-3" id="email" type="email" required />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right" htmlFor="phone">
               Phone
             </Label>
-            <Input className="col-span-3" id="phone" />
+            <Input className="col-span-3" id="phone" required />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right" htmlFor="address">
               Address
             </Label>
-            <Textarea className="col-span-3" id="address" />
+            <Textarea className="col-span-3" id="address" required />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right" htmlFor="pets">
-              Pets
+            <Label className="text-right" htmlFor="city">
+              City
             </Label>
-            <Input className="col-span-3" id="pets" />
+            <Input className="col-span-3" id="city" required />
           </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Save Customer</Button>
-        </DialogFooter>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right" htmlFor="state">
+              State
+            </Label>
+            <Input className="col-span-3" id="state" required />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right" htmlFor="zip">
+              Zip
+            </Label>
+            <Input className="col-span-3" id="zip" required />
+          </div>
+          <DialogFooter>
+            <Button type="submit">Save Customer</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
