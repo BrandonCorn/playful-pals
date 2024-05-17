@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from './ui/button';
@@ -10,6 +11,7 @@ import {
   DropdownMenuContent,
   DropdownMenu
 } from '@/components/ui/dropdown-menu';
+import { logout } from 'actions/auth';
 
 export default function TopMenu() {
   return (
@@ -57,7 +59,9 @@ export default function TopMenu() {
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => logout()}>
+            Logout
+          </DropdownMenuItem>{' '}
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
