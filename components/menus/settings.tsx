@@ -22,7 +22,7 @@ export default function Settings() {
             alt="Avatar"
             className="rounded-full"
             height="32"
-            src="/placeholder.svg"
+            src="/placeholder-user.jpg"
             style={{
               aspectRatio: '32/32',
               objectFit: 'cover'

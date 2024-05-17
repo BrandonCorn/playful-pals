@@ -1,6 +1,8 @@
+'use client';
 import NewCustomerForm from '../forms/newCustomerForm';
 import { SearchIcon } from '../icons';
 import { Search } from '../search';
+import Settings from './settings';
 
 export default function CustomerMenu() {
   return (
@@ -15,6 +17,7 @@ export default function CustomerMenu() {
         </div>
         <NewCustomerForm />
       </div>
+      <Settings />
     </header>
   );
 }
