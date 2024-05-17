@@ -30,19 +30,19 @@ export default function MainNavigation() {
               <HomeIcon className="h-4 w-4" />
               Dashboard
             </NavItem>
-            <NavItem href="/appointments">
+            <NavItem href="/dashboard/appointments">
               <CalendarIcon className="h-4 w-4" />
               Appointments
             </NavItem>
-            <NavItem href="/customers">
+            <NavItem href="/dashboard/customers">
               <UsersIcon className="h-4 w-4" />
               Customers
             </NavItem>
-            <NavItem href="/animals">
+            <NavItem href="/dashboard/animals">
               <PawPrintIcon className="h-4 w-4" />
               Animals
             </NavItem>
-            <NavItem href="/financials">
+            <NavItem href="/dashboard/financials">
               <LandmarkIcon className="h-4 w-4" />
               Financials
             </NavItem>
