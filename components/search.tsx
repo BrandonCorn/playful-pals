@@ -5,11 +5,16 @@ import { SearchIcon, Spinner } from '@/components/icons';
 import { useRouter } from 'next/navigation';
 import { useTransition, useEffect, useRef, useState } from 'react';
 
-export function Search(props: { value?: string }) {
+export function Search(props: {
+  value?: string;
+  placeholder?: string;
+  searchUrl: string;
+}) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState(props.value);
   const [isPending, startTransition] = useTransition();
+  const { placeholder, searchUrl } = props;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -25,7 +30,7 @@ export function Search(props: { value?: string }) {
     startTransition(() => {
       // All navigations are transitions automatically
       // But wrapping this allow us to observe the pending state
-      router.replace(`/?${params.toString()}`);
+      router.replace(`${searchUrl}/?${params.toString()}`);
     });
   }, [router, value]);
 
@@ -39,8 +44,8 @@ export function Search(props: { value?: string }) {
           setValue(e.currentTarget.value);
         }}
         spellCheck={false}
-        className="w-full bg-white shadow-none appearance-none pl-8"
-        placeholder="Search users..."
+        className="w-full rounded-md border border-gray-200 bg-white px-10 py-2 text-sm shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-800 dark:bg-gray-900 dark:text-gray-50 dark:focus:border-primary"
+        placeholder={placeholder || ''}
       />
       {isPending && <Spinner />}
     </div>
