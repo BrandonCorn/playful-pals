@@ -3,7 +3,6 @@ import './globals.css';
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
 import {
-  Logo,
   HomeIcon,
   CalendarIcon,
   UsersIcon,
@@ -12,7 +11,6 @@ import {
   BellIcon,
   SearchIcon
 } from '@/components/icons';
-import { User } from './user';
 import { NavItem } from './nav-item';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,6 +22,7 @@ import {
   DropdownMenuContent,
   DropdownMenu
 } from '@/components/ui/dropdown-menu';
+import Footer from '@/components/footer';
 
 export const metadata = {
   title: 'Next.js App Router + NextAuth + Tailwind CSS',
@@ -45,10 +44,10 @@ export default function RootLayout({
               <div className="flex h-[60px] items-center border-b px-6">
                 <Link
                   className="flex items-center gap-2 font-semibold"
-                  href="#"
+                  href="/"
                 >
                   <PawPrintIcon className="h-6 w-6" />
-                  <span>Paws & Claws</span>
+                  <span>Playful Pals</span>
                 </Link>
                 <Button
                   className="ml-auto h-8 w-8"
@@ -136,6 +135,7 @@ export default function RootLayout({
               </DropdownMenu>
             </header>
             {children}
+            <Footer />
           </div>
         </div>
         <Analytics />
