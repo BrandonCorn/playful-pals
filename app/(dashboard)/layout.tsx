@@ -1,7 +1,7 @@
 import '../globals.css';
 import { Analytics } from '@vercel/analytics/react';
 
-import TopMenu from '@/components/topMenu';
+import TopMenu from '@/components/menus/dashboardMenu';
 import MainNavigation from '@/components/mainNavigation';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
@@ -33,10 +33,7 @@ export default async function RootLayout({
       <body>
         <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
           <MainNavigation />
-          <div className="flex flex-col">
-            <TopMenu />
-            {children}
-          </div>
+          {children}
         </div>
         <Analytics />
       </body>
