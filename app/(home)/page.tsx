@@ -1,8 +1,14 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PawPrintIcon } from '@/components/icons';
+import { signIn } from '@/lib/auth';
 
-export default function Component() {
+async function login(formData: FormData) {
+  'use server';
+  await signIn();
+}
+
+export default function Page() {
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-[#E0F2FE] to-[#DBEAFE] dark:from-[#1E3A8A] dark:to-[#1E40AF]">
       <header className="flex items-center justify-between px-6 py-4">
@@ -35,13 +41,15 @@ export default function Component() {
               width={400}
             />
           </div>
-          <Button
-            className="rounded-full bg-[#2563EB] px-8 py-4 text-lg font-medium text-white transition-colors hover:bg-[#1E40AF] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-2 dark:hover:bg-[#2563EB] dark:focus:ring-[#1E40AF]"
-            size="lg"
-            // variant="primary"
-          >
-            Log In
-          </Button>
+          <form action={login}>
+            <Button
+              className="rounded-full bg-[#2563EB] px-8 py-4 text-lg font-medium text-white transition-colors hover:bg-[#1E40AF] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-2 dark:hover:bg-[#2563EB] dark:focus:ring-[#1E40AF]"
+              size="lg"
+              type="submit"
+            >
+              Log In
+            </Button>
+          </form>
         </div>
       </main>
     </div>
