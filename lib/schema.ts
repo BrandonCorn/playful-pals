@@ -61,3 +61,19 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 )
+
+export const customers = pgTable("customer", 
+  {
+    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+    firstName: text('firstName').notNull(),
+    lastName: text('lastName').notNull(),
+    address: text('address').notNull(),
+    city: text('city').notNull(),
+    state: text('state').notNull(),
+    zip: text('zip').notNull(),
+    phoneNumber: text('phoneNumber').notNull(),
+    email: text('email').notNull(),
+    createdAt: timestamp('createdAt', { mode: 'date'}).$defaultFn(() => new Date()),
+    updatedAt: timestamp('updatedAt', { mode: 'date'}).$defaultFn(() => new Date()),
+  }
+)
