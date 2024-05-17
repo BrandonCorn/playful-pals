@@ -7,9 +7,9 @@ import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
 export const metadata = {
-  title: 'Next.js App Router + NextAuth + Tailwind CSS',
+  title: 'Playful Pals',
   description:
-    'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.'
+    'A user admin dashboard for the playful pals business associates powered by Next.js App Router + NextAuth + Tailwind CSS'
 };
 
 async function isLoggedIn() {
