@@ -20,7 +20,7 @@ export async function insertPet(
 
 export async function insertPetToCustomers(petId: string, customerId: string) {
   try {
-    return db.insert(customersToPets).values({ petId, customerId }).returning();
+    return db.insert(customersToPets).values({ petId, customerId }).returning;
   } catch (err) {
     console.error('Error inserting into join table customers and pets ', err);
     throw new Error('Error connecting pet and customer');
@@ -46,7 +46,18 @@ export async function selectPet(
   try {
     return db.select().from(pet).where(eq(pet.id, id)).limit(1);
   } catch (err) {
-    console.error('Customer not found', err);
+    console.error('Error finding pets', err);
+    throw err;
+  }
+}
+
+export async function selectCustomerPets(
+  ownerId: string
+): Promise<SelectPet[] | { error: any } | undefined> {
+  try {
+    return db.query.pet.findMany({ where: eq(pet.owner, ownerId) });
+  } catch (err) {
+    console.error('Error finding pets', err);
     throw err;
   }
 }

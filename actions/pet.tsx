@@ -1,6 +1,10 @@
 'use server';
 import z from 'zod';
-import { insertPet, insertPetToCustomers } from '@/lib/db/pet';
+import {
+  insertPet,
+  insertPetToCustomers,
+  selectCustomerPets
+} from '@/lib/db/pet';
 import { revalidatePath } from 'next/cache';
 
 export type Pets = {
@@ -48,7 +52,7 @@ const addPetSchema = z.object({
   })
 });
 
-export default async function addNewPet(
+export async function addNewPet(
   customerId: any,
   state: any,
   formData: FormData
@@ -81,5 +85,19 @@ export default async function addNewPet(
     } catch (err) {
       return { error: 'Error adding pet' };
     }
+  }
+}
+
+export async function getCustomerPets(ownerId: string) {
+  try {
+    const pets = await selectCustomerPets(ownerId);
+    if (!pets) {
+      return [];
+    } else {
+      return pets;
+    }
+  } catch (err) {
+    console.error('Error finding pets');
+    return { error: 'Error find pets' };
   }
 }
