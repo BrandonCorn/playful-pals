@@ -64,7 +64,7 @@ export async function selectCustomerPets(
 
 export type UpdatePet = typeof pet.$inferInsert;
 
-export async function updateCustomer(id: string, petData: Partial<UpdatePet>) {
+export async function updatePet(id: string, petData: Partial<UpdatePet>) {
   try {
     return db
       .update(pet)

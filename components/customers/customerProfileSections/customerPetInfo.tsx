@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import NewPetForm from '@/components/pets/forms/newPetForm';
@@ -13,8 +12,8 @@ export default async function CustomerPetInfo({
   const pets = await getCustomerPets(customerId);
   if (!pets) {
     return (
-      <div>
-        <p> No pets to display </p>
+      <div className="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:text-gray-200">
+        <h1> No pets to display </h1>
       </div>
     );
   }
@@ -26,13 +25,11 @@ export default async function CustomerPetInfo({
           pets.map((pet, i) => {
             return (
               <div>
-                <PetDetails pet={pet}>
+                <PetDetails pet={pet} customerId={customerId}>
                   <Button
                     variant="ghost"
                     key={`pet-${i}`}
                     className="flex items-center gap-4 hover:text-blue-500 dark:hover:text-blue-400"
-                    // onClick={}
-                    // href="#"
                   >
                     <Avatar>
                       <AvatarImage alt="Pet" src="/placeholder-pet.jpg" />

@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -22,19 +24,30 @@ import {
   SelectLabel
 } from '@/components/ui/select';
 import { ChevronUpIcon, ChevronDownIcon } from 'lucide-react';
+import { useFormState, useFormStatus } from 'react-dom';
+import { updatePet } from 'actions/pet';
 
-export default function PetDetails({ children, pet }: any) {
+export default function PetDetails({
+  children,
+  pet,
+  customerId
+}: {
+  children: React.ReactNode;
+  pet: any;
+  customerId: string;
+}) {
+  const updatePetWithOwnerId = updatePet.bind(null, customerId);
+  const [petState, updatePetAction] = useFormState(updatePetWithOwnerId, null);
+  const { pending } = useFormStatus();
+  console.log('pet state ', petState);
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        {/* <Button variant="outline">View Pet Details</Button> */}
-        {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Pet Details</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-6 py-6">
+        <form action={updatePetAction} className="grid gap-6 py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <Label htmlFor="name">Name</Label>
@@ -44,7 +57,7 @@ export default function PetDetails({ children, pet }: any) {
               <Label className="text-left" htmlFor="type">
                 Pet type
               </Label>
-              <Select name="type">
+              <Select name="type" defaultValue={pet.type}>
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="Select a pet type" />
                 </SelectTrigger>
@@ -52,7 +65,7 @@ export default function PetDetails({ children, pet }: any) {
                   <SelectScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
                     <ChevronUpIcon />
                   </SelectScrollUpButton>
-                  <SelectGroup defaultValue={pet.type}>
+                  <SelectGroup>
                     <SelectLabel className="px-[25px] text-xs leading-[25px] text-mauve11">
                       Pets
                     </SelectLabel>
@@ -73,7 +86,7 @@ export default function PetDetails({ children, pet }: any) {
               <Label className="text-left" htmlFor="gender">
                 Gender
               </Label>
-              <Select name="gender">
+              <Select name="gender" defaultValue={pet.gender}>
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="gender" />
                 </SelectTrigger>
@@ -81,7 +94,7 @@ export default function PetDetails({ children, pet }: any) {
                   <SelectScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
                     <ChevronUpIcon />
                   </SelectScrollUpButton>
-                  <SelectGroup defaultValue={pet.gender}>
+                  <SelectGroup>
                     <SelectLabel className="px-[25px] text-xs leading-[25px] text-mauve11">
                       Gender
                     </SelectLabel>
@@ -110,7 +123,7 @@ export default function PetDetails({ children, pet }: any) {
               <Label className="text-left" htmlFor="fixed">
                 Neutered/Spayed
               </Label>
-              <Select name="fixed">
+              <Select name="fixed" defaultValue={pet.fixed}>
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="Is your pet fixed" />
                 </SelectTrigger>
@@ -118,7 +131,7 @@ export default function PetDetails({ children, pet }: any) {
                   <SelectScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
                     <ChevronUpIcon />
                   </SelectScrollUpButton>
-                  <SelectGroup defaultValue={pet.fixed}>
+                  <SelectGroup>
                     <SelectLabel className="px-[25px] text-xs leading-[25px] text-mauve11">
                       yes/no
                     </SelectLabel>
@@ -132,12 +145,14 @@ export default function PetDetails({ children, pet }: any) {
               </Select>
             </div>
           </div>
-        </div>
-        <DialogClose asChild>
-          <DialogFooter>
-            <Button>Update</Button>
-          </DialogFooter>
-        </DialogClose>
+          <DialogClose asChild>
+            <DialogFooter>
+              <Button formAction={updatePetAction} aria-disabled={pending}>
+                {pending ? 'Updating...' : 'Update Pet'}
+              </Button>
+            </DialogFooter>
+          </DialogClose>
+        </form>
       </DialogContent>
     </Dialog>
   );

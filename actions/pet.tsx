@@ -101,3 +101,27 @@ export async function getCustomerPets(ownerId: string) {
     return { error: 'Error find pets' };
   }
 }
+
+export async function updatePet(
+  ownerId: string,
+  state: any,
+  formData: FormData
+) {
+  const results = addPetSchema.safeParse({
+    name: formData.get('name'),
+    type: formData.get('type'),
+    breed: formData.get('breed'),
+    gender: formData.get('gender'),
+    weight: formData.get('weight'),
+    color: formData.get('color'),
+    age: formData.get('age'),
+    fixed: formData.get('fixed')
+  });
+  console.log('results ', results);
+  if (!results.success) {
+    console.log(results.error.flatten().fieldErrors);
+    return { error: results.error.flatten().fieldErrors };
+  } else {
+  }
+  // return results;
+}
