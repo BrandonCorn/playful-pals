@@ -129,23 +129,51 @@ export default function NewPetForm({ customerId }: { customerId: string }) {
               <Label className="text-right" htmlFor="gender">
                 Gender
               </Label>
-              <Input
-                className="col-span-3"
-                id="gender"
-                placeholder="Enter pet's gender"
-                name="gender"
-              />
+              <Select name="gender">
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="gender" />
+                </SelectTrigger>
+                <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+                  <SelectScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                    <ChevronUpIcon />
+                  </SelectScrollUpButton>
+                  <SelectGroup>
+                    <SelectLabel className="px-[25px] text-xs leading-[25px] text-mauve11">
+                      Gender
+                    </SelectLabel>
+                    <SelectItem value="male">male</SelectItem>
+                    <SelectItem value="female">female</SelectItem>
+                  </SelectGroup>
+                  <SelectScrollDownButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                    <ChevronDownIcon />
+                  </SelectScrollDownButton>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="text-right" htmlFor="fixed">
-                Spayed / Neutered
+                Neutered/Spayed
               </Label>
-              <Input
-                className="col-span-3"
-                id="fixed"
-                placeholder="Pet's spayed or neutered"
-                name="fixed"
-              />
+              <Select name="fixed">
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Is your pet fixed" />
+                </SelectTrigger>
+                <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+                  <SelectScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                    <ChevronUpIcon />
+                  </SelectScrollUpButton>
+                  <SelectGroup>
+                    <SelectLabel className="px-[25px] text-xs leading-[25px] text-mauve11">
+                      yes/no
+                    </SelectLabel>
+                    <SelectItem value="yes">yes</SelectItem>
+                    <SelectItem value="no">no</SelectItem>
+                  </SelectGroup>
+                  <SelectScrollDownButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                    <ChevronDownIcon />
+                  </SelectScrollDownButton>
+                </SelectContent>
+              </Select>
             </div>
             <DialogClose asChild>
               <DialogFooter>
