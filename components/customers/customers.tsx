@@ -6,7 +6,7 @@
 
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { ChevronRightIcon } from './icons';
+import { ChevronRightIcon } from '../icons';
 import { SelectCustomer } from '@/lib/db/customer';
 
 export function Customers({ customers }: { customers: SelectCustomer[] | [] }) {
@@ -18,8 +18,9 @@ export function Customers({ customers }: { customers: SelectCustomer[] | [] }) {
             customers.map((customer, i) => {
               return (
                 <Link
+                  key={`customer-${i}`}
                   className="group flex items-center gap-4 rounded-md border border-gray-200 bg-white p-4 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-900"
-                  href={`/dashboard/customers/${customer.firstName}+${customer.lastName}`}
+                  href={`/dashboard/customers/${customer.email}`}
                 >
                   <Avatar className="h-12 w-12">
                     <AvatarImage

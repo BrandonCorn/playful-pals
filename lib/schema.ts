@@ -77,3 +77,17 @@ export const customers = pgTable("customer",
     updatedAt: timestamp('updatedAt', { mode: 'date'}).$defaultFn(() => new Date()),
   }
 )
+
+export type Customers = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phoneNumber: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

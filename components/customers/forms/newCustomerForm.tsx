@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusIcon } from '../icons';
+import { PlusIcon } from '../../icons';
 import { createCustomer } from 'actions/customer';
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';

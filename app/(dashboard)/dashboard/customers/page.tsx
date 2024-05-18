@@ -14,7 +14,7 @@ import {
   PaginationContent,
   Pagination
 } from '@/components/ui/pagination';
-import { Customers } from '@/components/customers';
+import { Customers } from '@/components/customers/customers';
 import { fetchAllCustomers } from 'actions/customer';
 
 export default async function CustomersPage() {

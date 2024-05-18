@@ -1,5 +1,5 @@
 'use client';
-import NewCustomerForm from '../forms/newCustomerForm';
+import NewCustomerForm from '../customers/forms/newCustomerForm';
 import { SearchIcon } from '../icons';
 import { Search } from '../search';
 import Settings from './settings';
