@@ -42,8 +42,6 @@ const insertCustomerSchema = z.object({
 });
 
 export async function createCustomer(state: any, formData: FormData) {
-  console.log('we got in here');
-  console.log('form data ', formData);
   const result = insertCustomerSchema.safeParse({
     firstName: formData.get('firstName'),
     lastName: formData.get('lastName'),

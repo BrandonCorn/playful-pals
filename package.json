@@ -6,7 +6,8 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "pnpm drizzle-kit generate",
-    "db:migrate": "pnpm drizzle-kit migrate"
+    "db:migrate": "pnpm drizzle-kit migrate",
+    "db:push": "pnpm drizzle-kit push"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.1.0",
