@@ -20,7 +20,7 @@ export async function insertPet(
 
 export type SelectPet = typeof pet.$inferSelect;
 
-export async function selectAllCustomers(): Promise<
+export async function selectAllPets(): Promise<
   SelectPet | SelectPet[] | undefined | { error: any }
 > {
   try {
