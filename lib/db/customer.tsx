@@ -14,7 +14,7 @@ export async function insertCustomer(
     // @ts-ignore
     if (err?.detail.includes('already exists'))
       return { error: 'Customer already exists' };
-    return { error: err };
+    throw err;
   }
 }
 
@@ -27,7 +27,7 @@ export async function selectAllCustomers(): Promise<
     return db.select().from(customers);
   } catch (err) {
     console.error('error selecting customers', err);
-    return { error: err };
+    throw err;
   }
 }
 
@@ -42,7 +42,7 @@ export async function selectCustomer(
       .limit(1);
   } catch (err) {
     console.error('Customer not found', err);
-    return { error: JSON.stringify(err) };
+    throw err;
   }
 }
 
@@ -56,9 +56,10 @@ export async function updateCustomer(
     return db
       .update(customers)
       .set({ ...customerData })
-      .where(eq(customers.email, email));
+      .where(eq(customers.email, email))
+      .returning();
   } catch (err) {
     console.error('Customer could not be updated ', err);
-    return { error: err };
+    throw err;
   }
 }

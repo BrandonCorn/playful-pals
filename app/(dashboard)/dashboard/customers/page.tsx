@@ -14,12 +14,21 @@ import {
   PaginationContent,
   Pagination
 } from '@/components/ui/pagination';
-import { Customers } from '@/components/customers';
-export default function CustomersPage() {
+import { Customers } from '@/components/customers/customers';
+import { fetchAllCustomers } from 'actions/customer';
+
+export default async function CustomersPage() {
+  const customers = await fetchAllCustomers();
+
+  if (!customers) {
+    throw new Error('Error fetching customers', customers);
+  }
+
   return (
     <div className="flex h-full w-full flex-col">
       <CustomerMenu />
-      <Customers />
+      {/* @ts-ignore */}
+      <Customers customers={customers || []} />
       <div className="flex justify-center border-t bg-gray-100 px-6 py-4 dark:border-gray-800 dark:bg-gray-950">
         <Pagination>
           <PaginationContent>

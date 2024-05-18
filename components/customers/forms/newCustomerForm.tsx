@@ -8,11 +8,12 @@ import {
   DialogHeader,
   DialogFooter,
   DialogContent,
-  Dialog
+  Dialog,
+  DialogClose
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusIcon } from '../icons';
+import { PlusIcon } from '../../icons';
 import { createCustomer } from 'actions/customer';
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
@@ -116,11 +117,13 @@ export default function NewCustomerForm() {
             </Label>
             <Input className="col-span-3" id="zip" name="zip" required />
           </div>
-          <DialogFooter>
-            <Button variant="outline" aria-disabled={pending} type="submit">
-              {pending ? 'Saving...' : 'Save Customer'}
-            </Button>
-          </DialogFooter>
+          <DialogClose asChild>
+            <DialogFooter>
+              <Button variant="outline" aria-disabled={pending} type="submit">
+                {pending ? 'Saving...' : 'Save Customer'}
+              </Button>
+            </DialogFooter>
+          </DialogClose>
         </form>
       </DialogContent>
     </Dialog>
