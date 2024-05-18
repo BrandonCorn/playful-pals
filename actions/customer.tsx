@@ -1,6 +1,11 @@
 'use server';
 import z from 'zod';
-import { InsertCustomer, insertCustomer } from '@/lib/db/customer';
+import {
+  InsertCustomer,
+  SelectCustomer,
+  insertCustomer,
+  selectAllCustomers
+} from '@/lib/db/customer';
 
 const insertCustomerSchema = z.object({
   firstName: z.string({
@@ -64,5 +69,20 @@ export async function createCustomer(state: any, formData: FormData) {
       console.error('Error creating customer ', err);
       return { error: err };
     }
+  }
+}
+
+export async function fetchAllCustomers() {
+  try {
+    const customers = await selectAllCustomers();
+    if (!customers) {
+      return [];
+    }
+    if (!Array.isArray(customers)) {
+      return [customers];
+    }
+    return customers;
+  } catch (err) {
+    return { error: err };
   }
 }
