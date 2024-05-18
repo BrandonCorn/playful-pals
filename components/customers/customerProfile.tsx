@@ -12,12 +12,18 @@ import { fetchCustomer } from 'actions/customer';
 
 export async function CustomerProfile({ email }: { email: string }) {
   const customer = await fetchCustomer(email);
+
+  if (!customer) {
+    throw new Error('No customer found');
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {/* @ts-ignore */}
         <CustomerInfo customer={customer[0]} />
-        <CustomerPetInfo email={email} />
+        {/* @ts-ignore */}
+        <CustomerPetInfo customerId={customer[0].id} />
         <CustomerPetAppointments />
       </div>
     </div>

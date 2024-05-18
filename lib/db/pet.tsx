@@ -1,4 +1,4 @@
-import { pet } from '@/lib/schema';
+import { customersToPets, pet } from '@/lib/schema';
 import { db } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 
@@ -13,8 +13,17 @@ export async function insertPet(
     console.error('error creating pet', err);
     // @ts-ignore
     if (err?.detail.includes('already exists'))
-      return { error: 'Pet already exists' };
+      throw new Error('Pet already exists');
     throw err;
+  }
+}
+
+export async function insertPetToCustomers(petId: string, customerId: string) {
+  try {
+    return db.insert(customersToPets).values({ petId, customerId }).returning();
+  } catch (err) {
+    console.error('Error inserting into join table customers and pets ', err);
+    throw new Error('Error connecting pet and customer');
   }
 }
 

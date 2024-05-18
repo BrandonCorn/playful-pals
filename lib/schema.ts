@@ -99,16 +99,16 @@ export type Customers = {
 
 export const pet = pgTable("pet", 
   {
-    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()).notNull(),
     name: text('name').notNull(),
     type: text('type', { enum: ['dog', 'cat']}).notNull(),
     breed: text('breed').notNull(),
     gender: text('gender').notNull(),
     weight: text('weight').notNull(),
     color: text('color').notNull(),
-    age: integer('age').notNull(),
+    age: text('age').notNull(),
     fixed: text('fixed').notNull(),
-    owner: text('owner').references(() => customers.email),
+    owner: text('owner').references(() => customers.id),
     createdAt: timestamp('createdAt', { mode: 'date'}).$defaultFn(() => new Date()),
     updatedAt: timestamp('updatedAt', { mode: 'date'}).$defaultFn(() => new Date()),
   }

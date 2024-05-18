@@ -7,7 +7,8 @@ import {
   DialogHeader,
   DialogFooter,
   DialogContent,
-  Dialog
+  Dialog,
+  DialogClose
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -29,8 +30,13 @@ import {
 import { useFormState, useFormStatus } from 'react-dom';
 import addNewPet from 'actions/pet';
 
-export default function CustomerPetInfo({ email }: { email: string }) {
-  const [petState, addPetAction] = useFormState(addNewPet, null);
+export default function CustomerPetInfo({
+  customerId
+}: {
+  customerId: string;
+}) {
+  const addNewPetWithCustomerId = addNewPet.bind(null, customerId);
+  const [petState, addPetAction] = useFormState(addNewPetWithCustomerId, null);
   return (
     <div className="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:text-gray-200">
       <h2 className="text-2xl font-bold mb-4">Pets</h2>
@@ -76,7 +82,7 @@ export default function CustomerPetInfo({ email }: { email: string }) {
                 Fill out the form to create a new pet profile.
               </DialogDescription>
             </DialogHeader>
-            <form className="grid gap-4 py-4">
+            <form action={addPetAction} className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label className="text-right" htmlFor="petName">
                   Name
@@ -140,6 +146,7 @@ export default function CustomerPetInfo({ email }: { email: string }) {
                   Age
                 </Label>
                 <Input
+                  type="text"
                   className="col-span-3"
                   id="petAge"
                   placeholder="Enter pet's age"
@@ -179,10 +186,13 @@ export default function CustomerPetInfo({ email }: { email: string }) {
                   name="fixed"
                 />
               </div>
-
-              <DialogFooter>
-                <Button type="submit">Save Pet</Button>
-              </DialogFooter>
+              <DialogClose asChild>
+                <DialogFooter>
+                  <Button formAction={addPetAction} type="submit">
+                    Save Pet
+                  </Button>
+                </DialogFooter>
+              </DialogClose>
             </form>
           </DialogContent>
         </Dialog>
