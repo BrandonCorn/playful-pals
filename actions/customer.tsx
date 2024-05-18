@@ -62,7 +62,7 @@ export async function createCustomer(state: any, formData: FormData) {
       return await insertCustomer(customer);
     } catch (err) {
       console.error('Error creating customer ', err);
-      return { error: 'Error creating customer' };
+      return { error: 'Customer already exists' };
     }
   }
 }

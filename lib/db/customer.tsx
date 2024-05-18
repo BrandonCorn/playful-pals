@@ -3,7 +3,9 @@ import { db } from '@/lib/db';
 
 export type InsertCustomer = typeof customers.$inferInsert;
 
-export async function insertCustomer(customer: InsertCustomer) {
+export async function insertCustomer(
+  customer: InsertCustomer
+): Promise<InsertCustomer | InsertCustomer[] | { message: string }> {
   try {
     return db.insert(customers).values(customer).returning();
   } catch (err) {

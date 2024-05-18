@@ -15,12 +15,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { PlusIcon } from '../icons';
 import { createCustomer } from 'actions/customer';
 import { useFormState } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 
 export default function NewCustomerForm() {
   const [customerState, createCustomerAction] = useFormState(
     createCustomer,
     null
   );
+  const { pending } = useFormStatus();
 
   return (
     <Dialog>
@@ -115,7 +117,9 @@ export default function NewCustomerForm() {
             <Input className="col-span-3" id="zip" name="zip" required />
           </div>
           <DialogFooter>
-            <Button type="submit">Save Customer</Button>
+            <Button variant="outline" aria-disabled={pending} type="submit">
+              {pending ? 'Saving...' : 'Save Customer'}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
