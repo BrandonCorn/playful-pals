@@ -10,6 +10,9 @@ export async function insertCustomer(
     return db.insert(customers).values(customer).returning();
   } catch (err) {
     console.error('error creating customer', err);
+    // @ts-ignore
+    if (err?.detail.includes('already exists'))
+      return { message: 'Customer already exists' };
     return { message: 'Failed to create customer' };
   }
 }
