@@ -6,6 +6,7 @@ import {
   insertCustomer,
   selectAllCustomers
 } from '@/lib/db/customer';
+import { revalidatePath } from 'next/cache';
 
 const insertCustomerSchema = z.object({
   firstName: z.string({
@@ -64,7 +65,9 @@ export async function createCustomer(state: any, formData: FormData) {
     const customer: InsertCustomer = result.data;
 
     try {
-      return await insertCustomer(customer);
+      const customerInserted = await insertCustomer(customer);
+      revalidatePath('/dashboard/customers');
+      return customerInserted;
     } catch (err) {
       console.error('Error creating customer ', err);
       return { error: err };
