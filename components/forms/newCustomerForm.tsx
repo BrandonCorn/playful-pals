@@ -1,3 +1,4 @@
+'use client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,8 +13,17 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { PlusIcon } from '../icons';
+import { createCustomer } from 'actions/customer';
+import { useFormState } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 
 export default function NewCustomerForm() {
+  const [customerState, createCustomerAction] = useFormState(
+    createCustomer,
+    null
+  );
+  const { pending } = useFormStatus();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -29,41 +39,89 @@ export default function NewCustomerForm() {
             Fill out the form to add a new customer to the system.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <form action={createCustomerAction} className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right" htmlFor="name">
-              Name
+            <Label className="text-right" htmlFor="firstName">
+              First Name
             </Label>
-            <Input className="col-span-3" id="name" />
+            <Input
+              type="text"
+              className="col-span-3"
+              id="firstName"
+              name="firstName"
+              required
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right" htmlFor="lastName">
+              Last Name
+            </Label>
+            <Input
+              type="text"
+              className="col-span-3"
+              id="lastName"
+              name="lastName"
+              required
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right" htmlFor="email">
               Email
             </Label>
-            <Input className="col-span-3" id="email" type="email" />
+            <Input
+              className="col-span-3"
+              id="email"
+              type="email"
+              name="email"
+              required
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right" htmlFor="phone">
+            <Label className="text-right" htmlFor="phoneNumber">
               Phone
             </Label>
-            <Input className="col-span-3" id="phone" />
+            <Input
+              className="col-span-3"
+              id="phoneNumber"
+              name="phoneNumber"
+              required
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right" htmlFor="address">
               Address
             </Label>
-            <Textarea className="col-span-3" id="address" />
+            <Textarea
+              className="col-span-3"
+              id="address"
+              name="address"
+              required
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right" htmlFor="pets">
-              Pets
+            <Label className="text-right" htmlFor="city">
+              City
             </Label>
-            <Input className="col-span-3" id="pets" />
+            <Input className="col-span-3" id="city" name="city" required />
           </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Save Customer</Button>
-        </DialogFooter>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right" htmlFor="state">
+              State
+            </Label>
+            <Input className="col-span-3" id="state" name="state" required />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right" htmlFor="zip">
+              Zip
+            </Label>
+            <Input className="col-span-3" id="zip" name="zip" required />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" aria-disabled={pending} type="submit">
+              {pending ? 'Saving...' : 'Save Customer'}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
