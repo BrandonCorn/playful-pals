@@ -80,7 +80,7 @@ export const customers = pgTable("customer",
 )
 
 export const customerRelations = relations(customers, ({ many }) => ({
-  customersToPets: many(customersToPets),
+  pets: many(customersToPets),
 }))
 
 export type Customers = {
@@ -99,36 +99,37 @@ export type Customers = {
 
 export const pet = pgTable("pet", 
   {
-    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()).notNull(),
     name: text('name').notNull(),
     type: text('type', { enum: ['dog', 'cat']}).notNull(),
     breed: text('breed').notNull(),
     gender: text('gender').notNull(),
     weight: text('weight').notNull(),
     color: text('color').notNull(),
-    age: integer('age').notNull(),
+    age: text('age').notNull(),
     fixed: text('fixed').notNull(),
+    owner: text('owner').references(() => customers.id),
     createdAt: timestamp('createdAt', { mode: 'date'}).$defaultFn(() => new Date()),
     updatedAt: timestamp('updatedAt', { mode: 'date'}).$defaultFn(() => new Date()),
   }
 )
 
 export const petRelations = relations(pet, ({ many }) => ({
-
+  owners: many(customersToPets)
 }))
 
-// export type Pets = {
-//   id: string;
-//   name: string;
-//   type: 'dog' | 'cat';
-//   breed: string;
-//   gender: string;
-//   weight: string;
-//   color: string;
-//   age: string;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
+export type Pets = {
+  id: string;
+  name: string;
+  type: 'dog' | 'cat';
+  breed: string;
+  gender: string;
+  weight: string;
+  color: string;
+  age: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export const customersToPets = pgTable(
   'customers_to_pets',

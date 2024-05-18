@@ -5,7 +5,7 @@
  */
 
 import { fetchCustomer } from 'actions/customer';
-import { CustomerProfile } from '@/components/customerProfile';
+import { CustomerProfile } from '@/components/customers/customerProfile';
 import { Suspense } from 'react';
 
 export default async function CustomerProfilePage({
@@ -14,16 +14,10 @@ export default async function CustomerProfilePage({
   params: { email: string };
 }) {
   const email = params.email.split('%40').join('@');
-  console.log('email ', email);
-  const customer = await fetchCustomer(email);
-
-  console.log('customer page level ', customer);
-
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
       <Suspense fallback={<></>}>
-        {/* @ts-ignore */}
-        <CustomerProfile customer={customer[0]} />
+        <CustomerProfile email={email} />
       </Suspense>
     </div>
   );
