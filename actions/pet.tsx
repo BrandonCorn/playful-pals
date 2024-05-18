@@ -71,12 +71,10 @@ export default async function addNewPet(
     const addOwner = { ...petData, owner: customerId };
     try {
       const newPet = await insertPet(addOwner);
-      console.log('pet data ', newPet);
       if (newPet && Array.isArray(newPet)) {
         const pet = newPet[0];
         // @ts-ignore id exists we use a default function to generate and use notNull
-        const insertedToJoin = await insertPetToCustomers(pet.id, customerId);
-        console.log('inserted to join table', insertedToJoin);
+        await insertPetToCustomers(pet.id, customerId);
         revalidatePath('/dashboard/customers/[email]', 'page');
         return newPet;
       }
