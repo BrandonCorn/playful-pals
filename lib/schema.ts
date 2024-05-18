@@ -131,12 +131,12 @@ export const petRelations = relations(pet, ({ many }) => ({
 // }
 
 export const customersToPets = pgTable(
-  'users_to_groups',
+  'customers_to_pets',
   {
-    customerId: integer('user_id')
+    customerId: text('customerId')
       .notNull()
       .references(() => customers.id),
-    petId: integer('group_id')
+    petId: text('petId')
       .notNull()
       .references(() => pet.id),
   },
