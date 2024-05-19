@@ -174,7 +174,8 @@ export const appointments = pgTable('appointment', {
   checkedIn: text('checkIn', { enum: ['true', 'false']}),
   dateCheckedOut: date('dateCheckedOut'),
   details: text('details'),
-  newPet: text('newPet', { enum: ['true', 'false']})
+  newPet: text('newPet', { enum: ['true', 'false']}),
+  serviceComplete: text('serviceComplete', { enum: ['true', 'false']})
 });
 
 export const appointmentRelations = relations(appointments, ({ one }) => (
