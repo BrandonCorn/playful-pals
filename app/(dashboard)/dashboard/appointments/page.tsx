@@ -1,3 +1,5 @@
-export default function Page() {
-  return <></>;
+import { Appointments } from '@/components/appointments/appointments';
+
+export default function AppointmentsPage() {
+  return <Appointments />;
 }
