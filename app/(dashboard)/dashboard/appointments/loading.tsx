@@ -3,7 +3,7 @@
  * @see https://v0.dev/t/yrzMzw5GYT6
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-
+'use client';
 import {
   TableHead,
   TableRow,
