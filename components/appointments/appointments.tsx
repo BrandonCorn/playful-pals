@@ -10,6 +10,7 @@ import AppointmentsTable from './table/appointmentsTable';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Search } from '@/components/search';
+import Link from 'next/link';
 
 export function Appointments() {
   return (
@@ -20,6 +21,11 @@ export function Appointments() {
       <main className="flex-1 p-6">
         <div className="flex justify-between items-center mb-6">
           <NewAppointmentForm />
+          <Button variant="outline">
+            <Link href="/dashboard/appointments/pastAppointments">
+              Appointment History
+            </Link>
+          </Button>
           <div className="flex items-center gap-2">
             <Label className="sr-only" htmlFor="search">
               Search
