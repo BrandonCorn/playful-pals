@@ -18,7 +18,7 @@ export type Pets = {
   color: string;
   age: string;
   fixed: string;
-  owner: string;
+  ownerId: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -126,15 +126,12 @@ export async function updatePetInfo(
   } else {
     try {
       const petData = results.data;
-      console.log('pet data', petData);
-      console.log('petId', petId);
       // @ts-ignore
       const updatedPet = await updatePet(petId, petData);
-      console.log('updated Pet ', updatedPet);
       if (!updatedPet) {
         return { error: 'No pet updated' };
       } else {
-        revalidatePath('/dashboard/customers/[email]');
+        revalidatePath('/dashboard/customers/[email]', 'page');
         return updatedPet;
       }
     } catch (err) {

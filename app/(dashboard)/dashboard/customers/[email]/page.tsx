@@ -6,7 +6,6 @@
 
 import { fetchCustomer } from 'actions/customer';
 import { CustomerProfile } from '@/components/customers/customerProfile';
-import { Suspense } from 'react';
 
 export default async function CustomerProfilePage({
   params
@@ -16,9 +15,7 @@ export default async function CustomerProfilePage({
   const email = params.email.split('%40').join('@');
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-      <Suspense fallback={<></>}>
-        <CustomerProfile email={email} />
-      </Suspense>
+      <CustomerProfile email={email} />
     </div>
   );
 }

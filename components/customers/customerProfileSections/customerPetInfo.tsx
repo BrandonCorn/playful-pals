@@ -24,7 +24,7 @@ export default async function CustomerPetInfo({
         {Array.isArray(pets) &&
           pets.map((pet, i) => {
             return (
-              <div className='space-y-4 flex"'>
+              <div className="space-y-4 flex" key={`pet-details-1=${i}`}>
                 {/* @ts-ignore */}
                 <PetDetails pet={pet}>
                   <Button
