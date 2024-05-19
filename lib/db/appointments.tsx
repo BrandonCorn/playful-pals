@@ -1,6 +1,6 @@
 import { appointments } from '@/lib/schema';
 import { db } from '@/lib/db';
-import { desc, eq, gte } from 'drizzle-orm';
+import { desc, eq, gte, lte } from 'drizzle-orm';
 
 export type InsertAppointment = typeof appointments.$inferInsert;
 
@@ -39,7 +39,8 @@ export async function selectTodaysAppointments(): Promise<
   SelectAppointments[] | undefined | { error: any }
 > {
   const todaysDate = new Date();
-  todaysDate.setHours(0, 0, 0, 0);
+  todaysDate.setUTCHours(0, 0, 0, 0);
+  console.log('todays ', todaysDate);
   try {
     return db
       .select()
@@ -82,6 +83,15 @@ export async function updateAppointment(
       .returning();
   } catch (err) {
     console.error('Appointment could not be updated ', err);
+    throw err;
+  }
+}
+
+export async function deleteAppointment(id: string) {
+  try {
+    return db.delete(appointments).where(eq(appointments.id, id));
+  } catch (err) {
+    console.error('Error deleting appointment', err);
     throw err;
   }
 }

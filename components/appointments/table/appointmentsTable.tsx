@@ -11,7 +11,8 @@ import {
   DialogHeader,
   DialogFooter,
   DialogContent,
-  Dialog
+  Dialog,
+  DialogClose
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -33,8 +34,18 @@ import {
 } from '@/components/ui/table';
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import { TrashIcon, PencilIcon } from '@/components/icons';
+import {
+  deleteAppointmentById,
+  fetchTodaysAppointments
+} from 'actions/appointments';
+import CancelAppointmentButton from '@/components/appointments/buttons/cancelAppointmentButton';
 
-export default function AppointmentsTable() {
+export default async function AppointmentsTable() {
+  const appointments = await fetchTodaysAppointments();
+  const deleteApp = async (id: string) => {
+    await deleteAppointmentById(id);
+  };
+  console.log('appointments ', appointments);
   return (
     <div className="border rounded-lg overflow-hidden">
       <Table>
@@ -48,175 +59,148 @@ export default function AppointmentsTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>
-              <div className="flex items-center gap-3">
-                <Avatar className="w-10 h-10">
-                  <AvatarImage alt="Buddy" src="/placeholder-avatar.jpg" />
-                  <AvatarFallback>B</AvatarFallback>
-                </Avatar>
-                <div>
-                  <div className="font-medium">Buddy</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    Golden Retriever
-                  </div>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell>Grooming</TableCell>
-            <TableCell>
-              <div>May 22, 2023</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                10:00 AM
-              </div>
-            </TableCell>
-            <TableCell>
-              <div>Nail trim, bath</div>
-            </TableCell>
-            <TableCell>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="icon" variant="outline">
-                    <PencilIcon className="h-4 w-4" />
-                    <span className="sr-only">Edit appointment</span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle>Edit Appointment</DialogTitle>
-                    <DialogDescription>
-                      Update the appointment details as needed.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="pet-name">Pet Name</Label>
-                        <Input defaultValue="Buddy" id="pet-name" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="pet-type">Pet Type</Label>
-                        <Input defaultValue="Golden Retriever" id="pet-type" />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="service">Service</Label>
-                        <Select defaultValue="boarding" name="service">
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select service" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="grooming">Grooming</SelectItem>
-                            <SelectItem value="boarding">Boarding</SelectItem>
-                            <SelectItem value="daycare">Daycare</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="arrival-date">Arrival Date</Label>
-                        <Input
-                          defaultValue="2023-05-22"
-                          id="arrival-date"
-                          type="date"
+          {Array.isArray(appointments) &&
+            appointments.map((appointment, i) => {
+              const date = new Date(appointment.arrivalDate);
+              const time = date.getTime();
+              console.log('time ', time);
+              return (
+                <TableRow key={`appointment-details-${i}`}>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="w-10 h-10">
+                        <AvatarImage
+                          alt="Buddy"
+                          src="/placeholder-avatar.jpg"
                         />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="arrival-time">Arrival Time</Label>
-                        <Input
-                          defaultValue="10:00"
-                          id="arrival-time"
-                          type="time"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="details">Details</Label>
-                        <Textarea defaultValue="Nail trim, bath" id="details" />
-                      </div>
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button variant="outline">Cancel</Button>
-                    <Button>
+                        <AvatarFallback>
+                          {appointment?.petName.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
                       <div>
-                        <div>
-                          <div className="fixed bottom-4 right-4 z-50">
-                            <div>
-                              <div>Appointment Updated</div>
-                              <div>
-                                The appointment has been successfully updated.
-                              </div>
+                        <div className="font-medium">
+                          {appointment?.petName}
+                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {appointment?.breed}
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>{appointment?.service}</TableCell>
+                  <TableCell>
+                    <div>{date.toDateString()}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      {date.toLocaleTimeString()}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div>{appointment?.details}</div>
+                  </TableCell>
+                  <TableCell>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button size="icon" variant="outline">
+                          <PencilIcon className="h-4 w-4" />
+                          <span className="sr-only">Edit appointment</span>
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>Edit Appointment</DialogTitle>
+                          <DialogDescription>
+                            Update the appointment details as needed.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="pet-name">Pet Name</Label>
+                              <Input defaultValue="Buddy" id="pet-name" />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="pet-type">Breed</Label>
+                              <Input
+                                defaultValue={appointment.breed}
+                                id="breed"
+                              />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="service">Service</Label>
+                              <Select defaultValue="boarding" name="service">
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select service" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="grooming">
+                                    Grooming
+                                  </SelectItem>
+                                  <SelectItem value="boarding">
+                                    Boarding
+                                  </SelectItem>
+                                  <SelectItem value="daycare">
+                                    Daycare
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="arrival-date">Arrival Date</Label>
+                              <Input
+                                defaultValue="2023-05-22"
+                                id="arrival-date"
+                                type="date"
+                              />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="arrival-time">Arrival Time</Label>
+                              <Input
+                                defaultValue="10:00"
+                                id="arrival-time"
+                                type="time"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="details">Details</Label>
+                              <Textarea
+                                defaultValue="Nail trim, bath"
+                                id="details"
+                              />
                             </div>
                           </div>
                         </div>
-                      </div>
-                      Save Changes
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="icon" variant="outline">
-                    <TrashIcon className="h-4 w-4" />
-                    <span className="sr-only">Cancel appointment</span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Cancel Appointment</DialogTitle>
-                    <DialogDescription>
-                      Are you sure you want to cancel this appointment? This
-                      action cannot be undone.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button>No, keep appointment</Button>
-                    <Button>Yes, cancel appointment</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell>
-              <div className="flex items-center gap-3">
-                <Avatar className="w-10 h-10">
-                  <AvatarImage alt="Milo" src="/placeholder-avatar.jpg" />
-                  <AvatarFallback>M</AvatarFallback>
-                </Avatar>
-                <div>
-                  <div className="font-medium">Milo</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    Labrador
-                  </div>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell>Daycare</TableCell>
-            <TableCell>
-              <div>May 27, 2023</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                9:00 AM
-              </div>
-            </TableCell>
-            <TableCell>
-              <div>Full day</div>
-            </TableCell>
-            <TableCell>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="icon" variant="outline">
-                    <PencilIcon className="h-4 w-4" />
-                    <span className="sr-only" />
-                  </Button>
-                </DialogTrigger>
-              </Dialog>
-            </TableCell>
-          </TableRow>
+                        <DialogFooter>
+                          <DialogClose>
+                            <Button variant="outline">Cancel</Button>
+                          </DialogClose>
+                          <Button>
+                            <div>
+                              <div>
+                                <div className="fixed bottom-4 right-4 z-50">
+                                  <div>
+                                    <div>Appointment Updated</div>
+                                    <div>
+                                      The appointment has been successfully
+                                      updated.
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            Save Changes
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                    <CancelAppointmentButton id={appointment?.id} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
     </div>

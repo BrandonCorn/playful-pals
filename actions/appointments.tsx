@@ -14,7 +14,9 @@ import {
   insertNewAppointment,
   InsertAppointment,
   SelectAppointments,
-  selectAppointment
+  selectAppointment,
+  selectTodaysAppointments,
+  deleteAppointment
 } from '@/lib/db/appointments';
 import { parseTime } from '@/lib/utils';
 
@@ -48,7 +50,11 @@ const insertNewAppointmentSchema = z.object({
       required_error: 'Phone number is required',
       invalid_type_error: 'Phone number must a string'
     })
-    .length(10, { message: 'Phone number must be 10 digits long' })
+    .length(10, { message: 'Phone number must be 10 digits long' }),
+  breed: z.string({
+    required_error: 'Breed is required',
+    invalid_type_error: 'breed must be a string'
+  })
 });
 
 export async function createAppointment(state: any, formData: FormData) {
@@ -62,7 +68,8 @@ export async function createAppointment(state: any, formData: FormData) {
     service: formData.get('service'),
     details: formData.get('details'),
     phoneNumber: formData.get('phoneNumber'),
-    newPet: formData.get('newPet')
+    newPet: formData.get('newPet'),
+    breed: formData.get('breed')
   });
 
   if (result.error) {
@@ -82,7 +89,7 @@ export async function createAppointment(state: any, formData: FormData) {
       revalidatePath('/dashboard/appointments');
       return appointmentInserted;
     } catch (err) {
-      console.error('Error creating customer ', err);
+      console.error('Error creating appointment ', err);
       return { error: err };
     }
   }
@@ -90,14 +97,14 @@ export async function createAppointment(state: any, formData: FormData) {
 
 export async function fetchTodaysAppointments() {
   try {
-    const customers = await selectAllCustomers();
-    if (!customers) {
+    const appointments = await selectTodaysAppointments();
+    if (!appointments) {
       return [];
     }
-    if (!Array.isArray(customers)) {
-      return [customers];
+    if (!Array.isArray(appointments)) {
+      return [appointments];
     }
-    return customers;
+    return appointments;
   } catch (err) {
     return { error: err };
   }
@@ -118,6 +125,18 @@ export async function fetchAppointment(
     return appointment as SelectAppointments[];
   } catch (err) {
     return { error: 'Could not find customer' };
+  }
+}
+
+export async function deleteAppointmentById(id: string) {
+  try {
+    console.log('entered the delete');
+    const deleted = await deleteAppointment(id);
+    console.log('deleted ', deleted);
+    revalidatePath('/dashboard/appointments');
+    return { message: deleted };
+  } catch (err) {
+    return { error: 'Error deleting appointment' };
   }
 }
 

@@ -177,7 +177,8 @@ export const appointments = pgTable('appointment', {
   details: text('details'),
   newPet: text('newPet', { enum: ['true', 'false']}).notNull(),
   serviceComplete: text('serviceComplete', { enum: ['true', 'false']}).default('false'),
-  phoneNumber: text('phoneNumber')
+  phoneNumber: text('phoneNumber').notNull(),
+  breed: text('breed').notNull(),
 });
 
 export const appointmentRelations = relations(appointments, ({ one }) => (
