@@ -1,6 +1,11 @@
 'use server';
 import z from 'zod';
-import { insertPet, insertPetToCustomers } from '@/lib/db/pet';
+import {
+  insertPet,
+  insertPetToCustomers,
+  selectCustomerPets,
+  updatePet
+} from '@/lib/db/pet';
 import { revalidatePath } from 'next/cache';
 
 export type Pets = {
@@ -11,7 +16,9 @@ export type Pets = {
   gender: string;
   weight: string;
   color: string;
-  age: number;
+  age: string;
+  fixed: string;
+  owner: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -48,7 +55,7 @@ const addPetSchema = z.object({
   })
 });
 
-export default async function addNewPet(
+export async function addNewPet(
   customerId: any,
   state: any,
   formData: FormData
@@ -80,6 +87,58 @@ export default async function addNewPet(
       }
     } catch (err) {
       return { error: 'Error adding pet' };
+    }
+  }
+}
+
+export async function getCustomerPets(ownerId: string) {
+  try {
+    const pets = await selectCustomerPets(ownerId);
+    if (!pets) {
+      return [];
+    } else {
+      return pets;
+    }
+  } catch (err) {
+    console.error('Error finding pets');
+    return { error: 'Error find pets' };
+  }
+}
+
+export async function updatePetInfo(
+  petId: string,
+  state: any,
+  formData: FormData
+) {
+  const results = addPetSchema.safeParse({
+    name: formData.get('name'),
+    type: formData.get('type'),
+    breed: formData.get('breed'),
+    gender: formData.get('gender'),
+    weight: formData.get('weight'),
+    color: formData.get('color'),
+    age: formData.get('age'),
+    fixed: formData.get('fixed')
+  });
+  if (!results.success) {
+    console.log(results.error.flatten().fieldErrors);
+    return { error: results.error.flatten().fieldErrors };
+  } else {
+    try {
+      const petData = results.data;
+      console.log('pet data', petData);
+      console.log('petId', petId);
+      // @ts-ignore
+      const updatedPet = await updatePet(petId, petData);
+      console.log('updated Pet ', updatedPet);
+      if (!updatedPet) {
+        return { error: 'No pet updated' };
+      } else {
+        revalidatePath('/dashboard/customers/[email]');
+        return updatedPet;
+      }
+    } catch (err) {
+      return { error: 'Error updating pets' };
     }
   }
 }

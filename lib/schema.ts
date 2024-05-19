@@ -127,6 +127,8 @@ export type Pets = {
   weight: string;
   color: string;
   age: string;
+  fixed: string;
+  owner: string;
   createdAt: Date;
   updatedAt: Date;
 }

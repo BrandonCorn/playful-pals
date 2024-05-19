@@ -5,9 +5,8 @@
  */
 
 import CustomerInfo from './customerProfileSections/customerInfo';
-import CustomerPetInfo from './customerProfileSections/petInfo';
+import CustomerPetInfo from './customerProfileSections/customerPetInfo';
 import CustomerPetAppointments from './customerProfileSections/customerPetAppointments';
-import { Customers } from '@/lib/schema';
 import { fetchCustomer } from 'actions/customer';
 
 export async function CustomerProfile({ email }: { email: string }) {
