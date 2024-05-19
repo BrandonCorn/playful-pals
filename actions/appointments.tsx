@@ -10,7 +10,13 @@ import {
 } from '@/lib/db/customer';
 import { revalidatePath } from 'next/cache';
 import { Customers } from '@/lib/schema';
-import { insertNewAppointment, InsertAppointment } from '@/lib/db/appointments';
+import {
+  insertNewAppointment,
+  InsertAppointment,
+  SelectAppointments,
+  selectAppointment
+} from '@/lib/db/appointments';
+import { parseTime } from '@/lib/utils';
 
 const insertNewAppointmentSchema = z.object({
   petName: z.string({
@@ -25,10 +31,11 @@ const insertNewAppointmentSchema = z.object({
     required_error: 'Last name is required',
     invalid_type_error: 'Last name must be a string'
   }),
-  arrivalDate: z.date({
+  arrivalDate: z.string({
     required_error: 'Arrival Date is required',
     invalid_type_error: 'Arrival Date must be a date'
   }),
+  arrivalTime: z.string(),
   service: z.enum(['boarding', 'grooming', 'daycare'], {
     message: 'Service must be boarding, grooming, or daycare'
   }),
@@ -45,11 +52,13 @@ const insertNewAppointmentSchema = z.object({
 });
 
 export async function createAppointment(state: any, formData: FormData) {
+  console.log('started ', formData);
   const result = insertNewAppointmentSchema.safeParse({
     petName: formData.get('petName'),
     ownerFirstName: formData.get('ownerFirstName'),
     ownerLastName: formData.get('ownerLastName'),
     arrivalDate: formData.get('arrivalDate'),
+    arrivalTime: formData.get('arrivalTime'),
     service: formData.get('service'),
     details: formData.get('details'),
     phoneNumber: formData.get('phoneNumber'),
@@ -57,12 +66,19 @@ export async function createAppointment(state: any, formData: FormData) {
   });
 
   if (result.error) {
+    console.log(result.error.flatten().fieldErrors);
     return { error: result.error.flatten().fieldErrors };
   } else if (result.success) {
-    const appointment: InsertAppointment = result.data;
+    const { arrivalDate, arrivalTime, ...appointment } = result.data;
+    const newArrivalDate = new Date(`${arrivalDate} ${arrivalTime}`);
+
+    const newAppointment = {
+      arrivalDate: newArrivalDate,
+      ...appointment
+    };
 
     try {
-      const appointmentInserted = await insertNewAppointment(appointment);
+      const appointmentInserted = await insertNewAppointment(newAppointment);
       revalidatePath('/dashboard/appointments');
       return appointmentInserted;
     } catch (err) {
@@ -72,7 +88,7 @@ export async function createAppointment(state: any, formData: FormData) {
   }
 }
 
-export async function fetchAllCustomers() {
+export async function fetchTodaysAppointments() {
   try {
     const customers = await selectAllCustomers();
     if (!customers) {
@@ -87,62 +103,66 @@ export async function fetchAllCustomers() {
   }
 }
 
-export async function fetchCustomer(
-  email: string
-): Promise<SelectCustomer[] | undefined | { error: string }> {
+export async function fetchAppointmentHistory() {}
+
+export async function fetchSinglePetAppointmentHistory() {}
+
+export async function fetchAppointment(
+  petId: string
+): Promise<SelectAppointments[] | undefined | { error: string }> {
   try {
-    const customer = await selectCustomer(email);
-    if (!customer) {
+    const appointment = await selectAppointment(petId);
+    if (!appointment) {
       return { error: 'Could not find customer' };
     }
-    return customer as SelectCustomer[];
+    return appointment as SelectAppointments[];
   } catch (err) {
     return { error: 'Could not find customer' };
   }
 }
 
-const updateCustomerSchema = z.object({
-  firstName: z.string({}),
-  lastName: z.string({}),
-  address: z.string({}),
-  city: z.string({}),
-  state: z.string({}),
-  zip: z.string({}),
-  phoneNumber: z.string({}),
-  email: z
-    .string({
-      required_error: 'Email is required',
-      invalid_type_error: 'Email must be a string'
-    })
-    .email({ message: 'Must provide a valid email' })
-});
+// const updateCustomerSchema = z.object({
+//   firstName: z.string({}),
+//   lastName: z.string({}),
+//   address: z.string({}),
+//   city: z.string({}),
+//   state: z.string({}),
+//   zip: z.string({}),
+//   phoneNumber: z.string({}),
+//   email: z
+//     .string({
+//       required_error: 'Email is required',
+//       invalid_type_error: 'Email must be a string'
+//     })
+//     .email({ message: 'Must provide a valid email' })
+// });
 
-export async function updateCustomerInfo(state: any, formData: FormData) {
-  const results = updateCustomerSchema.safeParse({
-    firstName: formData.get('firstName'),
-    lastName: formData.get('lastName'),
-    address: formData.get('address'),
-    city: formData.get('city'),
-    state: formData.get('state'),
-    zip: formData.get('zip'),
-    phoneNumber: formData.get('phoneNumber'),
-    email: formData.get('email')
-  });
+// export async function updateCustomerInfo(state: any, formData: FormData) {
+//   const results = updateCustomerSchema.safeParse({
+//     firstName: formData.get('firstName'),
+//     lastName: formData.get('lastName'),
+//     address: formData.get('address'),
+//     city: formData.get('city'),
+//     state: formData.get('state'),
+//     zip: formData.get('zip'),
+//     phoneNumber: formData.get('phoneNumber'),
+//     email: formData.get('email')
+//   });
 
-  if (results.error) {
-    return { error: results.error.flatten().fieldErrors };
-  } else {
-    const customer = results.data;
+//   if (results.error) {
+//     return { error: results.error.flatten().fieldErrors };
+//   } else {
+//     const customer = results.data;
 
-    try {
-      const updatedCustomer = await updateCustomer(customer.email, customer);
-      if (!updatedCustomer) {
-        return { error: 'Could not update customer' };
-      }
-      revalidatePath('/dashboard/customers/[email]', 'page');
-      return updatedCustomer;
-    } catch (err) {
-      return { error: 'Could not update customer' };
-    }
-  }
-}
+//     try {
+//       const updatedCustomer = await updateCustomer(customer.email, customer);
+//       if (!updatedCustomer) {
+//         return { error: 'Could not update customer' };
+//       }
+//       revalidatePath('/dashboard/customers/[email]', 'page');
+//       return updatedCustomer;
+//     } catch (err) {
+//       return { error: 'Could not update customer' };
+//     }
+//   }
+// }
