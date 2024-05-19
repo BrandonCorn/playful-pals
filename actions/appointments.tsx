@@ -1,15 +1,6 @@
 'use server';
 import z from 'zod';
-import {
-  InsertCustomer,
-  SelectCustomer,
-  insertCustomer,
-  selectAllCustomers,
-  selectCustomer,
-  updateCustomer
-} from '@/lib/db/customer';
 import { revalidatePath } from 'next/cache';
-import { Customers } from '@/lib/schema';
 import {
   insertNewAppointment,
   InsertAppointment,

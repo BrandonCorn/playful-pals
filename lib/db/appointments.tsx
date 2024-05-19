@@ -2,6 +2,40 @@ import { appointments } from '@/lib/schema';
 import { db } from '@/lib/db';
 import { desc, eq, gte, lte } from 'drizzle-orm';
 
+export type Appointment = {
+  id?: string;
+  petName: string;
+  ownerFirstName: string;
+  ownerLastName: string;
+  arrivalDate: Date;
+  departureDate?: Date;
+  service: 'boarding' | 'grooming' | 'daycare';
+  checkedIn?: string;
+  dateCheckedOut?: Date;
+  details?: string;
+  newPet: 'true' | 'false';
+  serviceComplete: 'true' | 'false';
+  phoneNumber: string;
+  breed: string;
+};
+
+// id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()).notNull(),
+// petId: text('petId'),
+// ownerId: text('ownerId'),
+// petName: text('petName'),
+// ownerFirstName: text('ownerFirstName').notNull(),
+// ownerLastName: text('ownerLastName').notNull(),
+// arrivalDate: date('arrivalDate', { mode: 'date'}).notNull(),
+// departureDate: date('departureDate', { mode: 'date'}),
+// service: text('service').notNull(),
+// checkedIn: text('checkIn', { enum: ['true', 'false']}).default('false'),
+// dateCheckedOut: date('dateCheckedOut', { mode: 'date'}),
+// details: text('details'),
+// newPet: text('newPet', { enum: ['true', 'false']}).notNull(),
+// serviceComplete: text('serviceComplete', { enum: ['true', 'false']}).default('false'),
+// phoneNumber: text('phoneNumber').notNull(),
+// breed: text('breed').notNull(),
+
 export type InsertAppointment = typeof appointments.$inferInsert;
 
 export async function insertNewAppointment(

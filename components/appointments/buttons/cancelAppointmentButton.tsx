@@ -11,10 +11,12 @@ import {
 import { Button } from '../../ui/button';
 import { TrashIcon } from '../../icons';
 import { deleteAppointmentById } from 'actions/appointments';
+import { useState } from 'react';
 
 export default function CancelButton({ id }: { id: string }) {
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
         <Button size="icon" variant="outline">
           <TrashIcon className="h-4 w-4" />
@@ -30,7 +32,7 @@ export default function CancelButton({ id }: { id: string }) {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button>No, keep appointment</Button>
+          <Button onClick={() => setOpen(!open)}>No, keep appointment</Button>
           <Button onClick={() => deleteAppointmentById(id)}>
             Yes, cancel appointment
           </Button>
