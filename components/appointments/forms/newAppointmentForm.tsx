@@ -37,17 +37,13 @@ export default function NewAppointmentForm() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="pet-name">Pet Name</Label>
-                <Input id="pet-name" placeholder="Enter pet name" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="pet-type">Pet Type</Label>
-                <Input id="pet-type" placeholder="Enter pet type" />
+                <Input id="pet-name" placeholder="Enter pet name" required />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="service">Service</Label>
-                <Select id="service">
+                <Select name="service" required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select service" />
                   </SelectTrigger>
@@ -60,13 +56,13 @@ export default function NewAppointmentForm() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="arrival-date">Arrival Date</Label>
-                <Input id="arrival-date" type="date" />
+                <Input id="arrival-date" type="date" required />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="arrival-time">Arrival Time</Label>
-                <Input id="arrival-time" type="time" />
+                <Input id="arrival-time" type="time" required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="details">Details</Label>

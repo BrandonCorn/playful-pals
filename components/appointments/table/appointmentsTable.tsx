@@ -102,7 +102,7 @@ export default function AppointmentsTable() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="service">Service</Label>
-                        <Select defaultValue="grooming" id="service">
+                        <Select defaultValue="boarding" name="service">
                           <SelectTrigger>
                             <SelectValue placeholder="Select service" />
                           </SelectTrigger>
