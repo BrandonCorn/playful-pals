@@ -24,8 +24,9 @@ import {
   SelectLabel
 } from '@/components/ui/select';
 import { ChevronUpIcon, ChevronDownIcon } from 'lucide-react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
 import { Pets, updatePetInfo } from 'actions/pet';
+import ErrorDialog from '../error-dialog';
 
 export default function PetDetails({
   children,
@@ -36,7 +37,10 @@ export default function PetDetails({
 }) {
   const updatePetWithId = updatePetInfo.bind(null, pet.id);
   const [petState, updatePetAction] = useFormState(updatePetWithId, null);
-  const { pending } = useFormStatus();
+
+  if (!pending && petState?.error) {
+    return <ErrorDialog errors={petState?.error} />;
+  }
 
   return (
     <Dialog>
@@ -145,9 +149,7 @@ export default function PetDetails({
           </div>
           <DialogClose asChild>
             <DialogFooter>
-              <Button formAction={updatePetAction} aria-disabled={pending}>
-                {pending ? 'Updating...' : 'Update Pet'}
-              </Button>
+              <Button formAction={updatePetAction}>Update Pet</Button>
             </DialogFooter>
           </DialogClose>
         </form>
