@@ -138,7 +138,6 @@ export async function updateCustomerInfo(state: any, formData: FormData) {
   if (results.error) {
     return { error: results.error.flatten().fieldErrors };
   } else {
-    console.log('results ', results);
     const customer = results.data;
 
     try {
@@ -146,6 +145,7 @@ export async function updateCustomerInfo(state: any, formData: FormData) {
       if (!updatedCustomer) {
         return { error: 'Could not update customer' };
       }
+      revalidatePath('/dashboard/customers/[email]', 'page');
       return updatedCustomer;
     } catch (err) {
       return { error: 'Could not update customer' };
