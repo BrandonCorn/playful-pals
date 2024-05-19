@@ -18,7 +18,7 @@ export type Pets = {
   color: string;
   age: string;
   fixed: string;
-  owner: string;
+  ownerId: string;
   createdAt: Date;
   updatedAt: Date;
 };

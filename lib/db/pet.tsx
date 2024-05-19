@@ -55,7 +55,7 @@ export async function selectCustomerPets(
   ownerId: string
 ): Promise<SelectPet[] | { error: any } | undefined> {
   try {
-    return db.query.pet.findMany({ where: eq(pet.owner, ownerId) });
+    return db.query.pet.findMany({ where: eq(pet.ownerId, ownerId) });
   } catch (err) {
     console.error('Error finding pets', err);
     throw err;
