@@ -13,18 +13,13 @@ import {
   Table
 } from '@/components/ui/table';
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
-import { TrashIcon, PencilIcon } from '@/components/icons';
-import {
-  deleteAppointmentById,
-  fetchTodaysAppointments
-} from 'actions/appointments';
+import { fetchTodaysAppointments } from 'actions/appointments';
 import CancelAppointmentButton from '@/components/appointments/buttons/cancelAppointmentButton';
 import UpdateAppointmentButton from '../buttons/updateAppointmentButton';
 
 export default async function AppointmentsTable() {
   const appointments = await fetchTodaysAppointments();
 
-  console.log('appointments ', appointments);
   return (
     <div className="border rounded-lg overflow-hidden">
       <Table>

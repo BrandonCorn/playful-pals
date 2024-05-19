@@ -10,6 +10,7 @@ import AppointmentsTable from './table/appointmentsTable';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Search } from '@/components/search';
+import { Suspense } from 'react';
 import Link from 'next/link';
 
 export function Appointments() {
@@ -42,7 +43,9 @@ export function Appointments() {
             </Button>
           </div>
         </div>
-        <AppointmentsTable />
+        <Suspense>
+          <AppointmentsTable />
+        </Suspense>
       </main>
     </div>
   );

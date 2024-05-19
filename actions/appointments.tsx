@@ -1,13 +1,15 @@
 'use server';
 import z from 'zod';
 import { revalidatePath } from 'next/cache';
+import { appointments } from '@/lib/schema';
 import {
   insertNewAppointment,
   InsertAppointment,
   SelectAppointments,
   selectAppointment,
   selectTodaysAppointments,
-  deleteAppointment
+  deleteAppointment,
+  updateAppointment
 } from '@/lib/db/appointments';
 import { parseTime } from '@/lib/utils';
 
@@ -131,48 +133,62 @@ export async function deleteAppointmentById(id: string) {
   }
 }
 
-// const updateCustomerSchema = z.object({
-//   firstName: z.string({}),
-//   lastName: z.string({}),
-//   address: z.string({}),
-//   city: z.string({}),
-//   state: z.string({}),
-//   zip: z.string({}),
-//   phoneNumber: z.string({}),
-//   email: z
-//     .string({
-//       required_error: 'Email is required',
-//       invalid_type_error: 'Email must be a string'
-//     })
-//     .email({ message: 'Must provide a valid email' })
-// });
+const updateAppointmentSchema = z.object({
+  petName: z.string(),
+  ownerFirstName: z.string(),
+  ownerLastName: z.string(),
+  arrivalDate: z.string(),
+  arrivalTime: z.string(),
+  service: z.enum(['boarding', 'grooming', 'daycare']),
+  details: z.string(),
+  newPet: z.enum(['true', 'false']),
+  phoneNumber: z
+    .string()
+    .length(10, { message: 'Phone number must be 10 digits long' }),
+  breed: z.string()
+});
 
-// export async function updateCustomerInfo(state: any, formData: FormData) {
-//   const results = updateCustomerSchema.safeParse({
-//     firstName: formData.get('firstName'),
-//     lastName: formData.get('lastName'),
-//     address: formData.get('address'),
-//     city: formData.get('city'),
-//     state: formData.get('state'),
-//     zip: formData.get('zip'),
-//     phoneNumber: formData.get('phoneNumber'),
-//     email: formData.get('email')
-//   });
+export async function updateAppointmentInfo(
+  appointmentId: string,
+  state: any,
+  formData: FormData
+) {
+  const results = insertNewAppointmentSchema.safeParse({
+    petName: formData.get('petName'),
+    ownerFirstName: formData.get('ownerFirstName'),
+    ownerLastName: formData.get('ownerLastName'),
+    arrivalDate: formData.get('arrivalDate'),
+    arrivalTime: formData.get('arrivalTime'),
+    service: formData.get('service'),
+    details: formData.get('details'),
+    phoneNumber: formData.get('phoneNumber'),
+    newPet: formData.get('newPet'),
+    breed: formData.get('breed')
+  });
 
-//   if (results.error) {
-//     return { error: results.error.flatten().fieldErrors };
-//   } else {
-//     const customer = results.data;
+  if (results.error) {
+    return { error: results.error.flatten().fieldErrors };
+  } else {
+    const { arrivalDate, arrivalTime, ...appointment } = results.data;
+    const newArrivalDate = new Date(`${arrivalDate} ${arrivalTime}`);
 
-//     try {
-//       const updatedCustomer = await updateCustomer(customer.email, customer);
-//       if (!updatedCustomer) {
-//         return { error: 'Could not update customer' };
-//       }
-//       revalidatePath('/dashboard/customers/[email]', 'page');
-//       return updatedCustomer;
-//     } catch (err) {
-//       return { error: 'Could not update customer' };
-//     }
-//   }
-// }
+    const newAppointment = {
+      arrivalDate: newArrivalDate,
+      ...appointment
+    };
+
+    try {
+      const updatedCustomer = await updateAppointment(
+        appointmentId,
+        newAppointment
+      );
+      if (!updatedCustomer) {
+        return { error: 'Could not update customer' };
+      }
+      revalidatePath('/dashboard/customers/[email]', 'page');
+      return updatedCustomer;
+    } catch (err) {
+      return { error: 'Could not update customer' };
+    }
+  }
+}

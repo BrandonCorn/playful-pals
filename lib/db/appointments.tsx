@@ -19,23 +19,6 @@ export type Appointment = {
   breed: string;
 };
 
-// id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()).notNull(),
-// petId: text('petId'),
-// ownerId: text('ownerId'),
-// petName: text('petName'),
-// ownerFirstName: text('ownerFirstName').notNull(),
-// ownerLastName: text('ownerLastName').notNull(),
-// arrivalDate: date('arrivalDate', { mode: 'date'}).notNull(),
-// departureDate: date('departureDate', { mode: 'date'}),
-// service: text('service').notNull(),
-// checkedIn: text('checkIn', { enum: ['true', 'false']}).default('false'),
-// dateCheckedOut: date('dateCheckedOut', { mode: 'date'}),
-// details: text('details'),
-// newPet: text('newPet', { enum: ['true', 'false']}).notNull(),
-// serviceComplete: text('serviceComplete', { enum: ['true', 'false']}).default('false'),
-// phoneNumber: text('phoneNumber').notNull(),
-// breed: text('breed').notNull(),
-
 export type InsertAppointment = typeof appointments.$inferInsert;
 
 export async function insertNewAppointment(
