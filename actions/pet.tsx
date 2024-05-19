@@ -3,7 +3,8 @@ import z from 'zod';
 import {
   insertPet,
   insertPetToCustomers,
-  selectCustomerPets
+  selectCustomerPets,
+  updatePet
 } from '@/lib/db/pet';
 import { revalidatePath } from 'next/cache';
 
@@ -15,7 +16,9 @@ export type Pets = {
   gender: string;
   weight: string;
   color: string;
-  age: number;
+  age: string;
+  fixed: string;
+  owner: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -102,8 +105,8 @@ export async function getCustomerPets(ownerId: string) {
   }
 }
 
-export async function updatePet(
-  ownerId: string,
+export async function updatePetInfo(
+  petId: string,
   state: any,
   formData: FormData
 ) {
@@ -117,11 +120,25 @@ export async function updatePet(
     age: formData.get('age'),
     fixed: formData.get('fixed')
   });
-  console.log('results ', results);
   if (!results.success) {
     console.log(results.error.flatten().fieldErrors);
     return { error: results.error.flatten().fieldErrors };
   } else {
+    try {
+      const petData = results.data;
+      console.log('pet data', petData);
+      console.log('petId', petId);
+      // @ts-ignore
+      const updatedPet = await updatePet(petId, petData);
+      console.log('updated Pet ', updatedPet);
+      if (!updatedPet) {
+        return { error: 'No pet updated' };
+      } else {
+        revalidatePath('/dashboard/customers/[email]');
+        return updatedPet;
+      }
+    } catch (err) {
+      return { error: 'Error updating pets' };
+    }
   }
-  // return results;
 }

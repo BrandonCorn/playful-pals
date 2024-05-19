@@ -25,21 +25,19 @@ import {
 } from '@/components/ui/select';
 import { ChevronUpIcon, ChevronDownIcon } from 'lucide-react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { updatePet } from 'actions/pet';
+import { Pets, updatePetInfo } from 'actions/pet';
 
 export default function PetDetails({
   children,
-  pet,
-  customerId
+  pet
 }: {
   children: React.ReactNode;
-  pet: any;
-  customerId: string;
+  pet: Pets;
 }) {
-  const updatePetWithOwnerId = updatePet.bind(null, customerId);
-  const [petState, updatePetAction] = useFormState(updatePetWithOwnerId, null);
+  const updatePetWithId = updatePetInfo.bind(null, pet.id);
+  const [petState, updatePetAction] = useFormState(updatePetWithId, null);
   const { pending } = useFormStatus();
-  console.log('pet state ', petState);
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>

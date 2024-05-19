@@ -20,12 +20,13 @@ export default async function CustomerPetInfo({
   return (
     <div className="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:text-gray-200">
       <h2 className="text-2xl font-bold mb-4">Pets</h2>
-      <div className="space-y-4 flex">
+      <div className="space-y-4 flex-col">
         {Array.isArray(pets) &&
           pets.map((pet, i) => {
             return (
-              <div>
-                <PetDetails pet={pet} customerId={customerId}>
+              <div className='space-y-4 flex"'>
+                {/* @ts-ignore */}
+                <PetDetails pet={pet}>
                   <Button
                     variant="ghost"
                     key={`pet-${i}`}
