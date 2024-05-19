@@ -144,14 +144,12 @@ export default function NewAppointmentForm() {
                 </div>
               </div>
             </div>
-            <DialogClose asChild>
-              <DialogFooter>
-                <Button variant="outline">Cancel</Button>
-                <Button formAction={setAppointmentAction}>
-                  Save Appointment
-                </Button>
-              </DialogFooter>
-            </DialogClose>
+            <DialogFooter className="py-4">
+              <Button variant="outline">Cancel</Button>
+              <Button formAction={setAppointmentAction}>
+                Save Appointment
+              </Button>
+            </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
