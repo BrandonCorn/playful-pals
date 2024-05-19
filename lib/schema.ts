@@ -5,6 +5,7 @@ import {
   text,
   primaryKey,
   integer,
+  date,
 } from "drizzle-orm/pg-core"
 import type { AdapterAccountType } from "next-auth/adapters";
  
@@ -81,6 +82,7 @@ export const customers = pgTable("customer",
 
 export const customerRelations = relations(customers, ({ many }) => ({
   pets: many(customersToPets),
+  appointments: many(appointments)
 }))
 
 export type Customers = {
@@ -108,14 +110,15 @@ export const pet = pgTable("pet",
     color: text('color').notNull(),
     age: text('age').notNull(),
     fixed: text('fixed').notNull(),
-    owner: text('owner').references(() => customers.id),
+    ownerId: text('ownerId'),
     createdAt: timestamp('createdAt', { mode: 'date'}).$defaultFn(() => new Date()),
     updatedAt: timestamp('updatedAt', { mode: 'date'}).$defaultFn(() => new Date()),
   }
 )
 
 export const petRelations = relations(pet, ({ many }) => ({
-  owners: many(customersToPets)
+  owner: many(customersToPets),
+  appointments: many(appointments),
 }))
 
 export type Pets = {
@@ -158,5 +161,37 @@ export const customerToPetRelations = relations(customersToPets, ({ one }) => ({
     references: [customers.id],
   }),
 }));
+
+export const appointments = pgTable('appointment', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()).notNull(),
+  petId: text('petId'),
+  ownerId: text('ownerId'),
+  ownerFirstName: text('ownerFirstName').notNull(),
+  ownerLastName: text('ownerLastName').notNull(),
+  arrivalDate: date('arrivalDate').notNull(),
+  departureDate: date('departureDate'),
+  service: text('service').notNull(),
+  checkedIn: text('checkIn', { enum: ['true', 'false']}),
+  dateCheckedOut: date('dateCheckedOut'),
+  details: text('details'),
+  newPet: text('newPet', { enum: ['true', 'false']})
+});
+
+export const appointmentRelations = relations(appointments, ({ one }) => (
+  {
+    owner: one(customers, {
+      fields: [appointments.ownerId],
+      references: [customers.id]
+    }),
+    pets: one(pet, {
+      fields: [appointments.petId],
+      references: [pet.id]
+    })
+  }
+));
+
+
+
+
 
 
