@@ -31,6 +31,7 @@ export default async function AppointmentsTable() {
         <TableHeader>
           <TableRow>
             <TableHead>Pet</TableHead>
+            <TableHead> New Pet </TableHead>
             <TableHead>Service</TableHead>
             <TableHead>Arrival</TableHead>
             <TableHead>Details</TableHead>
@@ -66,6 +67,9 @@ export default async function AppointmentsTable() {
                         </div>
                       </div>
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    {appointment?.newPet === 'true' ? 'Yes' : 'No'}
                   </TableCell>
                   <TableCell>{appointment?.service}</TableCell>
                   <TableCell>
