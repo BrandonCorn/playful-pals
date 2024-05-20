@@ -1,3 +1,4 @@
+'use client';
 import {
   DialogTrigger,
   DialogTitle,
@@ -5,7 +6,8 @@ import {
   DialogHeader,
   DialogFooter,
   DialogContent,
-  Dialog
+  Dialog,
+  DialogClose
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,8 +20,16 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { createAppointment } from 'actions/appointments';
+import { useFormState } from 'react-dom';
 
 export default function NewAppointmentForm() {
+  const [appointment, setAppointmentAction] = useFormState(
+    createAppointment,
+    null
+  );
+
+  console.log('appointment ', appointment);
   return (
     <div>
       <Dialog>
@@ -33,14 +43,64 @@ export default function NewAppointmentForm() {
               Fill out the form to create a new appointment.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="pet-name">Pet Name</Label>
-                <Input id="pet-name" placeholder="Enter pet name" required />
+          <form action={setAppointmentAction}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="pet-name">Pet Name</Label>
+                  <Input
+                    name="petName"
+                    id="pet-name"
+                    placeholder="Enter pet name"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="breed">Breed</Label>
+                  <Input name="breed" id="breed" placeholder="breed" required />
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="owner-first-name">Owner First Name</Label>
+                <Input
+                  name="ownerFirstName"
+                  id="owner-first-name"
+                  placeholder="Enter owner first name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="owner-last-name">Owner Last Name</Label>
+                <Input
+                  name="ownerLastName"
+                  id="owner-last-name"
+                  placeholder="Enter owner last name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-pet">New Pet</Label>
+                <Select name="newPet" required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Is this pet new?" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">yes</SelectItem>
+                    <SelectItem value="false">no</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  name="phoneNumber"
+                  id="phone"
+                  placeholder="Enter phone number"
+                  required
+                />
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="service">Service</Label>
                 <Select name="service" required>
@@ -56,24 +116,41 @@ export default function NewAppointmentForm() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="arrival-date">Arrival Date</Label>
-                <Input id="arrival-date" type="date" required />
+                <Input
+                  name="arrivalDate"
+                  id="arrival-date"
+                  type="date"
+                  required
+                />
               </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="arrival-time">Arrival Time</Label>
-                <Input id="arrival-time" type="time" required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="details">Details</Label>
-                <Textarea id="details" placeholder="Enter additional details" />
+                <Input
+                  name="arrivalTime"
+                  id="arrival-time"
+                  type="time"
+                  required
+                />
               </div>
             </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline">Cancel</Button>
-            <Button>Save Appointment</Button>
-          </DialogFooter>
+            <div className="grid gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="details">Details</Label>
+                <Textarea
+                  rows={10}
+                  name="details"
+                  id="details"
+                  placeholder="Enter additional details"
+                />
+              </div>
+            </div>
+            <DialogFooter className="py-4">
+              <Button variant="outline">Cancel</Button>
+              <Button formAction={setAppointmentAction}>
+                Save Appointment
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

@@ -38,9 +38,9 @@ export default function MainNavigation() {
               <UsersIcon className="h-4 w-4" />
               Customers
             </NavItem>
-            <NavItem href="/dashboard/animals">
+            <NavItem href="/dashboard/pets">
               <PawPrintIcon className="h-4 w-4" />
-              Animals
+              Pets
             </NavItem>
             <NavItem href="/dashboard/financials">
               <LandmarkIcon className="h-4 w-4" />
