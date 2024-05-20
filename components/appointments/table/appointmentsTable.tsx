@@ -40,7 +40,6 @@ export default async function AppointmentsTable() {
         <TableBody>
           {Array.isArray(appointments) &&
             appointments.map((appointment, i) => {
-              const id = appointment?.id || '';
               const { date, time } = convertToLocaleDate(
                 appointment.arrivalDate
               );
@@ -80,10 +79,10 @@ export default async function AppointmentsTable() {
                   </TableCell>
                   <TableCell>
                     <UpdateAppointmentButton appointment={appointment} />
-                    <CancelAppointmentButton id={id} />
+                    <CancelAppointmentButton id={appointment.id} />
                   </TableCell>
                   <TableCell>
-                    <CheckInForm />
+                    <CheckInForm appointmentId={appointment.id} />
                   </TableCell>
                 </TableRow>
               );

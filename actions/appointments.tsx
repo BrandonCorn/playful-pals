@@ -11,7 +11,7 @@ import {
   deleteAppointment,
   updateAppointment
 } from '@/lib/db/appointments';
-import { formatDateForStorage, parseTime } from '@/lib/utils';
+import { formatDateForStorage } from '@/lib/utils';
 
 const insertNewAppointmentSchema = z.object({
   petName: z.string({

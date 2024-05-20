@@ -9,21 +9,24 @@ import {
   Dialog
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectItem,
-  SelectContent,
-  Select
-} from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useFormState } from 'react-dom';
 import { useState } from 'react';
+import { checkInServiceInfo } from 'actions/serviceInfo';
 
-export default function CheckInForm() {
+export default function CheckInForm({
+  appointmentId
+}: {
+  appointmentId: string;
+}) {
   const [open, setOpen] = useState(false);
+  const checkInWithAppointmentId = checkInServiceInfo.bind(null, appointmentId);
+  const [appointmentState, checkInAction] = useFormState(
+    checkInWithAppointmentId,
+    null
+  );
   return (
     <div>
       <Dialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -37,7 +40,7 @@ export default function CheckInForm() {
               Fill out form to check in your pet.
             </DialogDescription>
           </DialogHeader>
-          <form>
+          <form action={checkInAction}>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="new-departure-date">Departure Date</Label>
@@ -125,7 +128,9 @@ export default function CheckInForm() {
               </div>
             </div>
             <DialogFooter className="py-4">
-              <Button onClick={() => setOpen(!open)}>Save Check In</Button>
+              <Button formAction={checkInAction} onClick={() => setOpen(!open)}>
+                Save Check In
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
