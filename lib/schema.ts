@@ -119,6 +119,7 @@ export const pet = pgTable("pet",
 export const petRelations = relations(pet, ({ many }) => ({
   owner: many(customersToPets),
   appointments: many(appointments),
+  serviceInfo: many(serviceInfo),
 }))
 
 export type Pets = {
@@ -166,6 +167,7 @@ export const appointments = pgTable('appointment', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()).notNull(),
   petId: text('petId'),
   ownerId: text('ownerId'),
+  serviceInfoId: text('serviceInfoId'),
   petName: text('petName'),
   ownerFirstName: text('ownerFirstName').notNull(),
   ownerLastName: text('ownerLastName').notNull(),
@@ -190,9 +192,38 @@ export const appointmentRelations = relations(appointments, ({ one }) => (
     pets: one(pet, {
       fields: [appointments.petId],
       references: [pet.id]
+    }),
+    serviceInfo: one(serviceInfo, {
+      fields: [appointments.serviceInfoId],
+      references: [serviceInfo.id]
     })
   }
 ));
+
+export const serviceInfo = pgTable('serviceInfo', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()).notNull(),
+  appointmentId: text('appointmentId'),
+  petId: text('petId'),
+  departureDate: date('departureDate', { mode: 'date'}),
+  breakfast: text('breakfast').notNull().default('No breakfast'),
+  lunch: text('lunch').notNull().default('No lunch'),
+  dinner: text('dinner').notNull().default('No dinner'),
+  medicine: text('medicine').notNull().default('No medicine'),
+  belongings: text('belongings').notNull().default('No belongings'),
+  details: text('details').notNull().default('No special instructions'), 
+  cubby: text('cubby').default('No cubby'),
+});
+
+export const serviceRelations = relations(serviceInfo, ({ one }) => ({
+  appointments: one(appointments, {
+    fields: [serviceInfo.appointmentId],
+    references: [appointments.id]
+  }),
+  pet: one(pet, {
+    fields: [serviceInfo.petId],
+    references: [pet.id]
+  })
+})); 
 
 
 
