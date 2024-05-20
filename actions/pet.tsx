@@ -75,7 +75,7 @@ export async function addNewPet(
     return { error: results.error.flatten().fieldErrors };
   } else {
     const petData = results.data;
-    const addOwner = { ...petData, owner: customerId };
+    const addOwner = { ...petData, ownerId: customerId };
     try {
       const newPet = await insertPet(addOwner);
       if (newPet && Array.isArray(newPet)) {
