@@ -40,10 +40,6 @@ export default async function AppointmentsTable() {
           {Array.isArray(appointments) &&
             appointments.map((appointment, i) => {
               const id = appointment?.id || '';
-              console.log(
-                'appointment arrival ',
-                appointment.arrivalDate.toLocaleTimeString()
-              );
               const { date, time } = convertToLocaleDate(
                 appointment.arrivalDate
               );
