@@ -1,10 +1,10 @@
 import { Appointments } from '@/components/appointments/appointments';
-import AppointmentsMenu from '@/components/menus/appointmentsMenu';
+import SimpleMenu from '@/components/menus/simpleMenu';
 
 export default function AppointmentsPage() {
   return (
     <div className="flex flex-col h-full">
-      <AppointmentsMenu />
+      <SimpleMenu />
       <Appointments />;
     </div>
   );

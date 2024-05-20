@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { FilterIcon } from '../icons';
 import NewAppointmentForm from './forms/newAppointmentForm';
 import AppointmentsTable from './table/appointmentsTable';
-import AppointmentsMenu from '../menus/appointmentsMenu';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Suspense } from 'react';

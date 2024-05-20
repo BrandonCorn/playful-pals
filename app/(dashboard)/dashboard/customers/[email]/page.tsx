@@ -4,7 +4,7 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 
-import { fetchCustomer } from 'actions/customer';
+import SimpleMenu from '@/components/menus/simpleMenu';
 import { CustomerProfile } from '@/components/customers/customerProfile';
 
 export default async function CustomerProfilePage({
@@ -14,7 +14,8 @@ export default async function CustomerProfilePage({
 }) {
   const email = params.email.split('%40').join('@');
   return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+    <div className="flex h-full flex-col">
+      <SimpleMenu />
       <CustomerProfile email={email} />
     </div>
   );

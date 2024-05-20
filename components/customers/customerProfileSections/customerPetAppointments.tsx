@@ -19,9 +19,10 @@ export default function CustomerPetAppointments() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-medium">Grooming</h3>
+            <h3 className="font-medium">Boarding</h3>
+            <h3 className="font-medium"> Dro - German Shephard </h3>
             <p className="text-gray-500 dark:text-gray-400">
-              May 25, 2023 - 2:00 PM
+              May 25, 2025 - 2:00 PM
             </p>
           </div>
           <Dialog>
@@ -42,13 +43,13 @@ export default function CustomerPetAppointments() {
                   <Label className="text-right" htmlFor="service">
                     Service
                   </Label>
-                  <p className="col-span-3">Grooming</p>
+                  <p className="col-span-3">Boarding</p>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label className="text-right" htmlFor="date">
                     Date
                   </Label>
-                  <p className="col-span-3">May 25, 2023</p>
+                  <p className="col-span-3">May 25, 2024</p>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label className="text-right" htmlFor="time">
@@ -60,7 +61,7 @@ export default function CustomerPetAppointments() {
                   <Label className="text-right" htmlFor="pet">
                     Pet
                   </Label>
-                  <p className="col-span-3">Buddy</p>
+                  <p className="col-span-3">Dro</p>
                 </div>
               </div>
               <DialogFooter>
@@ -85,7 +86,7 @@ export default function CustomerPetAppointments() {
                         </Label>
                         <Input
                           className="col-span-3"
-                          defaultValue="Grooming"
+                          defaultValue="Boarding"
                           id="service"
                         />
                       </div>
@@ -95,7 +96,7 @@ export default function CustomerPetAppointments() {
                         </Label>
                         <Input
                           className="col-span-3"
-                          defaultValue="2023-05-25"
+                          defaultValue="2024-05-25"
                           id="date"
                           type="date"
                         />
@@ -117,12 +118,11 @@ export default function CustomerPetAppointments() {
                         </Label>
                         <Select
                           // className="col-span-3"
-                          defaultValue="buddy"
-                          // id="pet"
+                          defaultValue="dro"
                           name="pet"
                         >
-                          <option value="buddy">Buddy</option>
-                          <option value="whiskers">Whiskers</option>
+                          <option value="dro">Dro</option>
+                          <option value="holly">Holly</option>
                         </Select>
                       </div>
                     </div>
@@ -133,36 +133,6 @@ export default function CustomerPetAppointments() {
                 </Dialog>
               </DialogFooter>
             </DialogContent>
-          </Dialog>
-        </div>
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="font-medium">Boarding</h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              June 1, 2023 - June 5, 2023
-            </p>
-          </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="sm" variant="outline">
-                View Details
-              </Button>
-            </DialogTrigger>
-          </Dialog>
-        </div>
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="font-medium">Daycare</h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              June 10, 2023 - 9:00 AM
-            </p>
-          </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="sm" variant="outline">
-                View Details
-              </Button>
-            </DialogTrigger>
           </Dialog>
         </div>
       </div>
