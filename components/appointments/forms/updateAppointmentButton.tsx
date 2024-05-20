@@ -132,7 +132,7 @@ export default function UpdateAppointmentButton({
             <div className="space-y-2">
               <Label htmlFor="arrival-date">Arrival Date</Label>
               <Input
-                defaultValue={date.toString()}
+                defaultValue={date.toLocaleDateString()}
                 id="arrival-date"
                 type="date"
                 name="arrivalDate"

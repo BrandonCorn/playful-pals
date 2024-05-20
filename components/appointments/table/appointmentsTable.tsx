@@ -18,6 +18,7 @@ import CancelAppointmentButton from '@/components/appointments/buttons/cancelApp
 import UpdateAppointmentButton from '../forms/updateAppointmentButton';
 import { Appointment } from '@/lib/db/appointments';
 import { convertToLocaleDate } from '@/lib/utils';
+import CheckInForm from '../forms/checkInForm';
 
 export default async function AppointmentsTable() {
   // @ts-ignore
@@ -80,6 +81,9 @@ export default async function AppointmentsTable() {
                   <TableCell>
                     <UpdateAppointmentButton appointment={appointment} />
                     <CancelAppointmentButton id={id} />
+                  </TableCell>
+                  <TableCell>
+                    <CheckInForm />
                   </TableCell>
                 </TableRow>
               );
