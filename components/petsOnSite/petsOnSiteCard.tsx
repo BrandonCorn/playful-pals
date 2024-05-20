@@ -7,7 +7,7 @@ import {
   SelectContent,
   Select
 } from '@/components/ui/select';
-import PetsOnSite from './petsOnSite';
+import PetsOnSiteTable from './petsOnSiteTable';
 import NewAppointmentForm from '../appointments/forms/newAppointmentForm';
 
 export default function PetsOnSiteCard() {
@@ -36,7 +36,7 @@ export default function PetsOnSiteCard() {
         </div>
       </CardHeader>
       <CardContent className="flex-1 grid gap-4">
-        <PetsOnSite />
+        <PetsOnSiteTable />
       </CardContent>
     </Card>
   );

@@ -16,7 +16,7 @@ import {
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import UpdatePetServiceForm from './forms/UpdatePetService';
 
-export default function PetsOnSite() {
+export default function PetsOnSiteTable() {
   return (
     <div className="flex flex-col h-full">
       <main className="flex-1 p-6">
