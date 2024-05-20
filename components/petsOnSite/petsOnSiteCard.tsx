@@ -7,8 +7,8 @@ import {
   SelectContent,
   Select
 } from '@/components/ui/select';
-import { PawPrintIcon } from '@/components/icons';
-import PetsOnSite from './petsOnSite';
+import PetsOnSiteTable from './petsOnSiteTable';
+import NewAppointmentForm from '../appointments/forms/newAppointmentForm';
 
 export default function PetsOnSiteCard() {
   return (
@@ -28,13 +28,15 @@ export default function PetsOnSiteCard() {
           </Select>
           <Input
             className="w-full bg-white shadow-none appearance-none pl-4 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
-            placeholder="Search"
+            placeholder="Search pets"
             type="search"
           />
+
+          <NewAppointmentForm />
         </div>
       </CardHeader>
       <CardContent className="flex-1 grid gap-4">
-        <PetsOnSite />
+        <PetsOnSiteTable />
       </CardContent>
     </Card>
   );
