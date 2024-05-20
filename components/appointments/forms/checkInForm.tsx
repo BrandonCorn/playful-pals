@@ -15,14 +15,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { useFormState } from 'react-dom';
 import { useState } from 'react';
 import { checkInServiceInfo } from 'actions/serviceInfo';
+import { usePathname } from 'next/navigation';
 
 export default function CheckInForm({
   appointmentId
 }: {
   appointmentId: string;
 }) {
+  const path = usePathname();
   const [open, setOpen] = useState(false);
-  const checkInWithAppointmentId = checkInServiceInfo.bind(null, appointmentId);
+  const checkInWithAppointmentId = checkInServiceInfo.bind(null, {
+    appointmentId,
+    path
+  });
   const [appointmentState, checkInAction] = useFormState(
     checkInWithAppointmentId,
     null

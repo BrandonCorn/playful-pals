@@ -37,10 +37,11 @@ const insertNewServiceInfoSchema = z.object({
 });
 
 export async function checkInServiceInfo(
-  appointmentId: string,
+  data: { appointmentId: string; path: string },
   state: any,
   formData: FormData
 ) {
+  const { appointmentId, path } = data;
   const result = insertNewServiceInfoSchema.safeParse({
     departureDate: formData.get('departureDate'),
     departureTime: formData.get('departureTime'),
@@ -72,7 +73,7 @@ export async function checkInServiceInfo(
           serviceInfoId: newServiceInserted[0].id
         });
       }
-      revalidatePath('/dashboard/appointments');
+      revalidatePath(path, 'page');
       return newServiceInserted;
     } catch (err) {
       console.error('Error creating service info ', err);
@@ -80,3 +81,9 @@ export async function checkInServiceInfo(
     }
   }
 }
+
+export async function updateServiceInfo(
+  data: { serviceInfoId: string; path: string },
+  state: any,
+  formData: FormData
+) {}
