@@ -75,7 +75,6 @@ export async function createAppointment(state: any, formData: FormData) {
       ...appointment,
       arrivalDate: newArrivalDate
     };
-    console.log('newAppointment date ', newAppointment.arrivalDate);
     try {
       const appointmentInserted = await insertNewAppointment(newAppointment);
       revalidatePath('/dashboard/appointments');

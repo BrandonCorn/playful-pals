@@ -174,7 +174,7 @@ export const appointments = pgTable('appointment', {
   arrivalDate: timestamp('arrivalDate', { mode: 'date'}).notNull(),
   departureDate: timestamp('departureDate', { mode: 'date'}),
   service: text('service').notNull(),
-  checkedIn: text('checkIn', { enum: ['true', 'false']}).default('false'),
+  checkedIn: text('checkedIn', { enum: ['true', 'false']}).default('false'),
   dateCheckedOut: timestamp('dateCheckedOut', { mode: 'date'}),
   details: text('details'),
   newPet: text('newPet', { enum: ['true', 'false']}).notNull(),

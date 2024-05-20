@@ -66,36 +66,20 @@ export default function CheckInForm({
                   name="breakfast"
                   id="new-breakfast"
                   placeholder="breakfast"
-                  required
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="new-lunch">Lunch</Label>
-                <Input
-                  name="lunch"
-                  id="new-lunch"
-                  placeholder="lunch"
-                  required
-                />
+                <Input name="lunch" id="new-lunch" placeholder="lunch" />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="new-dinner">Dinner</Label>
-                <Input
-                  name="dinner"
-                  id="new-dinner"
-                  placeholder="dinner"
-                  required
-                />
+                <Input name="dinner" id="new-dinner" placeholder="dinner" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="new-cubby">cubby</Label>
-                <Input
-                  name="cubby"
-                  id="new-cubby"
-                  placeholder="cubby"
-                  required
-                />
+                <Input name="cubby" id="new-cubby" placeholder="cubby" />
               </div>
             </div>
             <div className="grid gap-4 py-4">

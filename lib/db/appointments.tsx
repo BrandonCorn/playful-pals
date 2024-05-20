@@ -71,6 +71,20 @@ export async function selectTodaysAppointments(): Promise<
   }
 }
 
+export async function selectCheckedInAppointments() {
+  try {
+    return db.query.appointments.findMany({
+      where: (appointments, { eq }) => eq(appointments.checkedIn, 'true'),
+      with: {
+        serviceInfo: true
+      }
+    });
+  } catch (err) {
+    console.error('Error retrieving appointments checked in with service info');
+    throw err;
+  }
+}
+
 export async function selectAppointment(
   id: string
 ): Promise<

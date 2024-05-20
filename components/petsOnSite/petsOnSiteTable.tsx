@@ -15,8 +15,11 @@ import {
 } from '@/components/ui/table';
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import UpdatePetServiceForm from './forms/UpdatePetService';
+import { selectCheckedInAppointments } from '@/lib/db/appointments';
 
-export default function PetsOnSiteTable() {
+export default async function PetsOnSiteTable() {
+  const appointments = await selectCheckedInAppointments();
+  console.log('what do we got here ', appointments);
   return (
     <div className="flex flex-col h-full">
       <main className="flex-1 p-6">

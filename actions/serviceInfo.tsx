@@ -61,16 +61,16 @@ export async function checkInServiceInfo(
     const newDepartureDate = formatDateForStorage(departureDate, departureTime);
     const newServiceInfo = {
       ...serviceInfo,
-      departureDate: newDepartureDate
+      departureDate: newDepartureDate,
+      appointmentId
     };
     try {
       const newServiceInserted = await insertNewServiceInfo(newServiceInfo);
-      if (newServiceInserted) {
-        console.log('inserted successful', newServiceInserted);
-        const update = await updateAppointment(appointmentId, {
-          checkedIn: 'true'
+      if (Array.isArray(newServiceInserted)) {
+        await updateAppointment(appointmentId, {
+          checkedIn: 'true',
+          serviceInfoId: newServiceInserted[0].id
         });
-        console.log('updated appointment ', update);
       }
       revalidatePath('/dashboard/appointments');
       return newServiceInserted;
@@ -80,107 +80,3 @@ export async function checkInServiceInfo(
     }
   }
 }
-
-// export async function fetchTodaysAppointments() {
-//   try {
-//     const appointments = await selectTodaysAppointments();
-//     if (!appointments) {
-//       return [];
-//     }
-//     if (!Array.isArray(appointments)) {
-//       return [appointments];
-//     }
-//     return appointments;
-//   } catch (err) {
-//     return { error: err };
-//   }
-// }
-
-// export async function fetchAppointmentHistory() {}
-
-// export async function fetchSinglePetAppointmentHistory() {}
-
-// export async function fetchAppointment(
-//   petId: string
-// ): Promise<SelectAppointments[] | undefined | { error: string }> {
-//   try {
-//     const appointment = await selectAppointment(petId);
-//     if (!appointment) {
-//       return { error: 'Could not find customer' };
-//     }
-//     return appointment as SelectAppointments[];
-//   } catch (err) {
-//     return { error: 'Could not find customer' };
-//   }
-// }
-
-// export async function deleteAppointmentById(id: string) {
-//   try {
-//     const deleted = await deleteAppointment(id);
-//     revalidatePath('/dashboard/appointments');
-//     return { message: deleted };
-//   } catch (err) {
-//     return { error: 'Error deleting appointment' };
-//   }
-// }
-
-// const updateAppointmentSchema = z.object({
-//   petName: z.string(),
-//   ownerFirstName: z.string(),
-//   ownerLastName: z.string(),
-//   arrivalDate: z.string(),
-//   arrivalTime: z.string(),
-//   service: z.enum(['boarding', 'grooming', 'daycare']),
-//   details: z.string(),
-//   newPet: z.enum(['true', 'false']),
-//   phoneNumber: z
-//     .string()
-//     .length(10, { message: 'Phone number must be 10 digits long' }),
-//   breed: z.string()
-// });
-
-// export async function updateAppointmentInfo(
-//   appointmentId: string,
-//   state: any,
-//   formData: FormData
-// ) {
-//   console.log('got here ');
-//   const results = updateAppointmentSchema.safeParse({
-//     petName: formData.get('petName'),
-//     ownerFirstName: formData.get('ownerFirstName'),
-//     ownerLastName: formData.get('ownerLastName'),
-//     arrivalDate: formData.get('arrivalDate'),
-//     arrivalTime: formData.get('arrivalTime'),
-//     service: formData.get('service'),
-//     details: formData.get('details'),
-//     phoneNumber: formData.get('phoneNumber'),
-//     newPet: formData.get('newPet'),
-//     breed: formData.get('breed')
-//   });
-//   console.log(results);
-//   if (results.error) {
-//     return { error: results.error.flatten().fieldErrors };
-//   } else {
-//     const { arrivalDate, arrivalTime, ...appointment } = results.data;
-//     const newArrivalDate = formatDateForStorage(arrivalDate, arrivalTime);
-
-//     const newAppointment = {
-//       arrivalDate: newArrivalDate,
-//       ...appointment
-//     };
-
-//     try {
-//       const updatedAppointment = await updateAppointment(
-//         appointmentId,
-//         newAppointment
-//       );
-//       if (!updatedAppointment) {
-//         return { error: 'Could not update customer' };
-//       }
-//       revalidatePath('/dashboard/appointments');
-//       return updatedAppointment;
-//     } catch (err) {
-//       return { error: 'Could not update appointment' };
-//     }
-//   }
-// }
