@@ -8,14 +8,20 @@ import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { ChevronRightIcon } from '../icons';
 import { SelectCustomer } from '@/lib/db/customer';
+import { getCustomerPets } from 'actions/pet';
 
-export function Customers({ customers }: { customers: SelectCustomer[] | [] }) {
+export async function Customers({
+  customers
+}: {
+  customers: SelectCustomer[] | [];
+}) {
   return (
     <div className="flex-1 overflow-auto p-6">
       <div className="grid gap-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {customers &&
-            customers.map((customer, i) => {
+            customers.map(async (customer, i) => {
+              const pets = await getCustomerPets(customer.id);
               return (
                 <Link
                   key={`customer-${i}`}
@@ -37,7 +43,8 @@ export function Customers({ customers }: { customers: SelectCustomer[] | [] }) {
                       {customer.email}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Pets: Buddy, Whiskers
+                      Pets:{' '}
+                      {Array.isArray(pets) && pets.map((pet) => pet.name + ' ')}
                     </p>
                   </div>
                   <ChevronRightIcon className="h-5 w-5 text-gray-500 group-hover:text-primary dark:text-gray-400" />
