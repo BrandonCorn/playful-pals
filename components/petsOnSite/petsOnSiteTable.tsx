@@ -16,10 +16,15 @@ import {
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import UpdatePetServiceForm from './forms/UpdatePetService';
 import { selectCheckedInAppointments } from '@/lib/db/appointments';
+import { convertToLocaleDate } from '@/lib/utils';
 
 export default async function PetsOnSiteTable() {
   const appointments = await selectCheckedInAppointments();
-  console.log('what do we got here ', appointments);
+  const services = appointments.map((appointment) => {
+    const { serviceInfo, ...rest } = appointment;
+    return { ...rest, ...serviceInfo };
+  });
+  console.log('services ', services);
   return (
     <div className="flex flex-col h-full">
       <main className="flex-1 p-6">
@@ -36,38 +41,52 @@ export default async function PetsOnSiteTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage alt="Buddy" src="/placeholder-avatar.jpg" />
-                      <AvatarFallback>B</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-medium">Buddy</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        Golden Retriever
-                      </div>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>Grooming</TableCell>
-                <TableCell>
-                  <div>May 22, 2023</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    10:00 AM
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div>Nail trim, bath</div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <UpdatePetServiceForm />
-                    <Button className="ml-2">Check Out</Button>
-                  </div>
-                </TableCell>
-              </TableRow>
+              {Array.isArray(services) &&
+                services.map((service) => {
+                  const { date, time } = convertToLocaleDate(
+                    // @ts-ignore we know departure date exists because required for check in
+                    service?.departureDate
+                  );
+                  return (
+                    <TableRow>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Avatar className="w-10 h-10">
+                            <AvatarImage
+                              alt={'avatar image'}
+                              src="/placeholder-avatar.jpg"
+                            />
+                            <AvatarFallback>
+                              {service.petName?.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="font-medium">{service.petName}</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {service.breed}
+                            </div>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{service.service}</TableCell>
+                      <TableCell>
+                        <div>{date}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {time}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div>{service.details}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <UpdatePetServiceForm />
+                          <Button className="ml-2">Check Out</Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>
