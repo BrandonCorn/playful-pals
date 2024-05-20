@@ -18,6 +18,7 @@ import CancelAppointmentButton from '@/components/appointments/buttons/cancelApp
 import UpdateAppointmentButton from '../forms/updateAppointmentButton';
 import { Appointment } from '@/lib/db/appointments';
 import { convertToLocaleDate } from '@/lib/utils';
+import CheckInForm from '../forms/checkInForm';
 
 export default async function AppointmentsTable() {
   // @ts-ignore
@@ -39,11 +40,6 @@ export default async function AppointmentsTable() {
         <TableBody>
           {Array.isArray(appointments) &&
             appointments.map((appointment, i) => {
-              const id = appointment?.id || '';
-              console.log(
-                'appointment arrival ',
-                appointment.arrivalDate.toLocaleTimeString()
-              );
               const { date, time } = convertToLocaleDate(
                 appointment.arrivalDate
               );
@@ -83,7 +79,10 @@ export default async function AppointmentsTable() {
                   </TableCell>
                   <TableCell>
                     <UpdateAppointmentButton appointment={appointment} />
-                    <CancelAppointmentButton id={id} />
+                    <CancelAppointmentButton id={appointment.id} />
+                  </TableCell>
+                  <TableCell>
+                    <CheckInForm appointmentId={appointment.id} />
                   </TableCell>
                 </TableRow>
               );

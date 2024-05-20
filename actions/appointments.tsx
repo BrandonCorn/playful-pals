@@ -11,7 +11,7 @@ import {
   deleteAppointment,
   updateAppointment
 } from '@/lib/db/appointments';
-import { formatDateForStorage, parseTime } from '@/lib/utils';
+import { formatDateForStorage } from '@/lib/utils';
 
 const insertNewAppointmentSchema = z.object({
   petName: z.string({
@@ -75,7 +75,6 @@ export async function createAppointment(state: any, formData: FormData) {
       ...appointment,
       arrivalDate: newArrivalDate
     };
-    console.log('newAppointment date ', newAppointment.arrivalDate);
     try {
       const appointmentInserted = await insertNewAppointment(newAppointment);
       revalidatePath('/dashboard/appointments');

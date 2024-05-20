@@ -1,9 +1,9 @@
 import { appointments } from '@/lib/schema';
 import { db } from '@/lib/db';
-import { desc, eq, gte, lte } from 'drizzle-orm';
+import { desc, eq, gte, and } from 'drizzle-orm';
 
 export type Appointment = {
-  id?: string;
+  id: string;
   petName: string;
   ownerFirstName: string;
   ownerLastName: string;
@@ -28,9 +28,6 @@ export async function insertNewAppointment(
     return db.insert(appointments).values(appointment).returning();
   } catch (err) {
     console.error('error creating appointment', err);
-    // @ts-ignore
-    if (err?.detail.includes('already exists'))
-      return { error: 'Appointment already exists' };
     throw err;
   }
 }
@@ -62,9 +59,28 @@ export async function selectTodaysAppointments(): Promise<
     return db
       .select()
       .from(appointments)
-      .where(gte(appointments.arrivalDate, todaysDate));
+      .where(
+        and(
+          gte(appointments.arrivalDate, todaysDate),
+          eq(appointments.checkedIn, 'false')
+        )
+      );
   } catch (err) {
     console.error('Error selecting todays appointments', err);
+    throw err;
+  }
+}
+
+export async function selectCheckedInAppointments() {
+  try {
+    return db.query.appointments.findMany({
+      where: (appointments, { eq }) => eq(appointments.checkedIn, 'true'),
+      with: {
+        serviceInfo: true
+      }
+    });
+  } catch (err) {
+    console.error('Error retrieving appointments checked in with service info');
     throw err;
   }
 }
