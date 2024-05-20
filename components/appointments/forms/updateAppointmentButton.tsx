@@ -24,13 +24,16 @@ import { Appointment } from '@/lib/db/appointments';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { updateAppointmentInfo } from 'actions/appointments';
+import { convertToLocaleDate, formatInputDatesDefaultValue } from '@/lib/utils';
 
 // export type UpdateAppointment = { id: string } & Appointment;
 
 export default function UpdateAppointmentButton({
+  buttonTitle,
   appointment
 }: {
   appointment: Appointment;
+  buttonTitle?: string;
 }) {
   const appointmentId = appointment?.id || '';
   const updateAppointmentWithId = updateAppointmentInfo.bind(
@@ -43,15 +46,22 @@ export default function UpdateAppointmentButton({
     null
   );
 
-  const date = new Date(appointment.arrivalDate);
-  const time = date.getTime();
+  const { date, time } = convertToLocaleDate(appointment.arrivalDate);
+  const { newDate, newTime } = formatInputDatesDefaultValue(
+    appointment.arrivalDate.toLocaleDateString(),
+    time
+  );
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
-        <Button size="icon" variant="outline">
-          <PencilIcon className="h-4 w-4" />
-          <span className="sr-only">Edit appointment</span>
-        </Button>
+        {!buttonTitle ? (
+          <Button size="icon" variant="outline">
+            <PencilIcon className="h-4 w-4" />
+            <span className="sr-only">Edit appointment</span>
+          </Button>
+        ) : (
+          <Button>{buttonTitle}</Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -132,7 +142,7 @@ export default function UpdateAppointmentButton({
             <div className="space-y-2">
               <Label htmlFor="arrival-date">Arrival Date</Label>
               <Input
-                defaultValue={date.toLocaleDateString()}
+                defaultValue={newDate}
                 id="arrival-date"
                 type="date"
                 name="arrivalDate"
@@ -142,7 +152,7 @@ export default function UpdateAppointmentButton({
               <Label htmlFor="arrival-time">Arrival Time</Label>
               <Input
                 name="arrivalTime"
-                defaultValue={time}
+                defaultValue={newTime}
                 id="arrival-time"
                 type="time"
               />
