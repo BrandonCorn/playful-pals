@@ -15,7 +15,7 @@ import {
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import { fetchTodaysAppointments } from 'actions/appointments';
 import CancelAppointmentButton from '@/components/appointments/buttons/cancelAppointmentButton';
-import UpdateAppointmentButton from '../buttons/updateAppointmentButton';
+import UpdateAppointmentButton from '../forms/updateAppointmentButton';
 import { Appointment } from '@/lib/db/appointments';
 import { convertToLocaleDate } from '@/lib/utils';
 
@@ -39,6 +39,7 @@ export default async function AppointmentsTable() {
         <TableBody>
           {Array.isArray(appointments) &&
             appointments.map((appointment, i) => {
+              const id = appointment?.id || '';
               const { date, time } = convertToLocaleDate(
                 appointment.arrivalDate
               );
@@ -78,7 +79,7 @@ export default async function AppointmentsTable() {
                   </TableCell>
                   <TableCell>
                     <UpdateAppointmentButton appointment={appointment} />
-                    <CancelAppointmentButton id={appointment?.id} />
+                    <CancelAppointmentButton id={id} />
                   </TableCell>
                 </TableRow>
               );

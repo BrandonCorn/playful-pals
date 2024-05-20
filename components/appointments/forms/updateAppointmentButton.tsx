@@ -25,16 +25,17 @@ import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { updateAppointmentInfo } from 'actions/appointments';
 
-export type UpdateAppointment = { id: string } & Appointment;
+// export type UpdateAppointment = { id: string } & Appointment;
 
 export default function UpdateAppointmentButton({
   appointment
 }: {
-  appointment: UpdateAppointment;
+  appointment: Appointment;
 }) {
+  const appointmentId = appointment?.id || '';
   const updateAppointmentWithId = updateAppointmentInfo.bind(
     null,
-    appointment?.id
+    appointmentId
   );
   const [open, setOpen] = useState(false);
   const [appointmentState, updateAppAction] = useFormState(
