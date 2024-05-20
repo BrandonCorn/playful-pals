@@ -22,10 +22,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { createAppointment } from 'actions/appointments';
 import { useFormState } from 'react-dom';
+import { usePathname } from 'next/navigation';
 
 export default function NewAppointmentForm() {
+  const path = usePathname();
+  const createAppointmentWithData = createAppointment.bind(null, { path });
   const [appointment, setAppointmentAction] = useFormState(
-    createAppointment,
+    createAppointmentWithData,
     null
   );
 

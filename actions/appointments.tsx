@@ -50,8 +50,12 @@ const insertNewAppointmentSchema = z.object({
   })
 });
 
-export async function createAppointment(state: any, formData: FormData) {
-  console.log('started ', formData);
+export async function createAppointment(
+  data: { path: string },
+  state: any,
+  formData: FormData
+) {
+  const { path } = data;
   const result = insertNewAppointmentSchema.safeParse({
     petName: formData.get('petName'),
     ownerFirstName: formData.get('ownerFirstName'),
@@ -77,7 +81,7 @@ export async function createAppointment(state: any, formData: FormData) {
     };
     try {
       const appointmentInserted = await insertNewAppointment(newAppointment);
-      revalidatePath('/dashboard/appointments');
+      revalidatePath(path, 'page');
       return appointmentInserted;
     } catch (err) {
       console.error('Error creating appointment ', err);
@@ -182,7 +186,7 @@ export async function updateAppointmentInfo(
       if (!updatedAppointment) {
         return { error: 'Could not update customer' };
       }
-      revalidatePath(path);
+      revalidatePath(path, 'page');
       return updatedAppointment;
     } catch (err) {
       return { error: 'Could not update appointment' };
