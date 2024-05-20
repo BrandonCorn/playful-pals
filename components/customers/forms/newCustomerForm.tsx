@@ -17,10 +17,13 @@ import { PlusIcon } from '../../icons';
 import { createCustomer } from 'actions/customer';
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
+import { usePathname } from 'next/navigation';
 
 export default function NewCustomerForm() {
+  const path = usePathname();
+  const createCustomerWithData = createCustomer.bind(null, { path });
   const [customerState, createCustomerAction] = useFormState(
-    createCustomer,
+    createCustomerWithData,
     null
   );
   const { pending } = useFormStatus();

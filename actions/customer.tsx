@@ -50,7 +50,12 @@ const insertCustomerSchema = z.object({
     .email({ message: 'Must provide a valid email' })
 });
 
-export async function createCustomer(state: any, formData: FormData) {
+export async function createCustomer(
+  data: { path: string },
+  state: any,
+  formData: FormData
+) {
+  const { path } = data;
   const result = insertCustomerSchema.safeParse({
     firstName: formData.get('firstName'),
     lastName: formData.get('lastName'),
@@ -69,7 +74,7 @@ export async function createCustomer(state: any, formData: FormData) {
 
     try {
       const customerInserted = await insertCustomer(customer);
-      revalidatePath('/dashboard/customers');
+      revalidatePath(path, 'page');
       return customerInserted;
     } catch (err) {
       console.error('Error creating customer ', err);
