@@ -26,9 +26,11 @@ import {
 } from '@/components/ui/select';
 import { useFormState, useFormStatus } from 'react-dom';
 import { addNewPet } from 'actions/pet';
+import { usePathname } from 'next/navigation';
 
 export default function NewPetForm({ customerId }: { customerId: string }) {
-  const addNewPetWithCustomerId = addNewPet.bind(null, customerId);
+  const path = usePathname();
+  const addNewPetWithCustomerId = addNewPet.bind(null, { customerId, path });
   const [petState, addPetAction] = useFormState(addNewPetWithCustomerId, null);
   return (
     <div className="mt-6 flex justify-end">

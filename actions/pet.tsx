@@ -57,10 +57,11 @@ const addPetSchema = z.object({
 });
 
 export async function addNewPet(
-  customerId: any,
+  data: { customerId: string; path: string },
   state: any,
   formData: FormData
 ) {
+  const { customerId, path } = data;
   const results = addPetSchema.safeParse({
     name: formData.get('name'),
     type: formData.get('type'),
@@ -83,7 +84,7 @@ export async function addNewPet(
         const pet = newPet[0];
         // @ts-ignore id exists we use a default function to generate and use notNull
         await insertPetToCustomers(pet.id, customerId);
-        revalidatePath('/dashboard/customers/[email]', 'page');
+        revalidatePath(path, 'page');
         return newPet;
       }
     } catch (err) {
