@@ -124,6 +124,7 @@ export const petRelations = relations(pet, ({ many }) => ({
 
 export type Pets = {
   id: string;
+  ownerId: string;
   name: string;
   type: 'dog' | 'cat';
   breed: string;

@@ -3,6 +3,7 @@ import z from 'zod';
 import {
   insertPet,
   insertPetToCustomers,
+  selectAllPets,
   selectCustomerPets,
   updatePet
 } from '@/lib/db/pet';
@@ -102,6 +103,19 @@ export async function getCustomerPets(ownerId: string) {
   } catch (err) {
     console.error('Error finding pets');
     return { error: 'Error find pets' };
+  }
+}
+
+export async function getAllPets() {
+  try {
+    const pets = await selectAllPets();
+    if (!pets) {
+      return [];
+    } else {
+      return pets;
+    }
+  } catch (err) {
+    return { error: 'Error finding pets' };
   }
 }
 
