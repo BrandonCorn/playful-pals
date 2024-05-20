@@ -28,3 +28,12 @@ export function convertToLocaleDate(utcDate: Date) {
     time: newDate.toLocaleTimeString(),
   }
 }
+
+export function formatInputDatesDefaultValue(date: string, time: string) {
+  let [newTime, meridian] = time.split(' ');
+  newTime = newTime.charAt(1) === ':' ? `0${newTime}` : newTime;
+  let [month, day, year] = date.split('/');
+  month = month.length < 2 ? `0${month}` : month;
+  const newDate = `${year}-${month}-${day}`;
+  return { newDate, newTime };
+}

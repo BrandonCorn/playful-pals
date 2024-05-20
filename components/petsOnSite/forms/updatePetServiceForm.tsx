@@ -16,7 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { PencilIcon } from '@/components/icons';
 import { useState } from 'react';
 import { ServiceInfo } from '@/lib/db/serviceInfo';
-import { convertToLocaleDate } from '@/lib/utils';
+import { convertToLocaleDate, formatInputDatesDefaultValue } from '@/lib/utils';
 import UpdateAppointmentButton from '@/components/appointments/forms/updateAppointmentButton';
 
 export default function UpdatePetServiceForm({
@@ -26,8 +26,10 @@ export default function UpdatePetServiceForm({
 }) {
   const [open, setOpen] = useState(false);
   const { date, time } = convertToLocaleDate(service.departureDate);
-  let [newTime, meridian] = time.split(' ');
-  newTime = newTime.charAt(1) === ':' ? `0${newTime}` : newTime;
+  const { newDate, newTime } = formatInputDatesDefaultValue(
+    service.departureDate.toLocaleDateString(),
+    time
+  );
 
   return (
     <div>
@@ -50,7 +52,7 @@ export default function UpdatePetServiceForm({
               <div className="space-y-2">
                 <Label htmlFor="new-departure-date">Departure Date</Label>
                 <Input
-                  defaultValue={date}
+                  defaultValue={newDate}
                   name="departureDate"
                   id="new-departure-date"
                   type="date"
