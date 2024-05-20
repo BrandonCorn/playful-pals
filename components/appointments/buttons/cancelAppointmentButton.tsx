@@ -33,7 +33,12 @@ export default function CancelButton({ id }: { id: string }) {
         </DialogHeader>
         <DialogFooter>
           <Button onClick={() => setOpen(!open)}>No, keep appointment</Button>
-          <Button onClick={() => deleteAppointmentById(id)}>
+          <Button
+            onClick={() => {
+              deleteAppointmentById(id);
+              setOpen(!open);
+            }}
+          >
             Yes, cancel appointment
           </Button>
         </DialogFooter>

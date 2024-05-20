@@ -11,7 +11,7 @@ import {
   deleteAppointment,
   updateAppointment
 } from '@/lib/db/appointments';
-import { parseTime } from '@/lib/utils';
+import { formatDateForStorage, parseTime } from '@/lib/utils';
 
 const insertNewAppointmentSchema = z.object({
   petName: z.string({
@@ -70,13 +70,12 @@ export async function createAppointment(state: any, formData: FormData) {
     return { error: result.error.flatten().fieldErrors };
   } else if (result.success) {
     const { arrivalDate, arrivalTime, ...appointment } = result.data;
-    const newArrivalDate = new Date(`${arrivalDate} ${arrivalTime}`);
-
+    const newArrivalDate = formatDateForStorage(arrivalDate, arrivalTime);
     const newAppointment = {
-      arrivalDate: newArrivalDate,
-      ...appointment
+      ...appointment,
+      arrivalDate: newArrivalDate
     };
-
+    console.log('newAppointment date ', newAppointment.arrivalDate);
     try {
       const appointmentInserted = await insertNewAppointment(newAppointment);
       revalidatePath('/dashboard/appointments');
@@ -123,9 +122,7 @@ export async function fetchAppointment(
 
 export async function deleteAppointmentById(id: string) {
   try {
-    console.log('entered the delete');
     const deleted = await deleteAppointment(id);
-    console.log('deleted ', deleted);
     revalidatePath('/dashboard/appointments');
     return { message: deleted };
   } catch (err) {
@@ -153,7 +150,8 @@ export async function updateAppointmentInfo(
   state: any,
   formData: FormData
 ) {
-  const results = insertNewAppointmentSchema.safeParse({
+  console.log('got here ');
+  const results = updateAppointmentSchema.safeParse({
     petName: formData.get('petName'),
     ownerFirstName: formData.get('ownerFirstName'),
     ownerLastName: formData.get('ownerLastName'),
@@ -165,12 +163,12 @@ export async function updateAppointmentInfo(
     newPet: formData.get('newPet'),
     breed: formData.get('breed')
   });
-
+  console.log(results);
   if (results.error) {
     return { error: results.error.flatten().fieldErrors };
   } else {
     const { arrivalDate, arrivalTime, ...appointment } = results.data;
-    const newArrivalDate = new Date(`${arrivalDate} ${arrivalTime}`);
+    const newArrivalDate = formatDateForStorage(arrivalDate, arrivalTime);
 
     const newAppointment = {
       arrivalDate: newArrivalDate,
@@ -178,17 +176,17 @@ export async function updateAppointmentInfo(
     };
 
     try {
-      const updatedCustomer = await updateAppointment(
+      const updatedAppointment = await updateAppointment(
         appointmentId,
         newAppointment
       );
-      if (!updatedCustomer) {
+      if (!updatedAppointment) {
         return { error: 'Could not update customer' };
       }
-      revalidatePath('/dashboard/customers/[email]', 'page');
-      return updatedCustomer;
+      revalidatePath('/dashboard/appointments');
+      return updatedAppointment;
     } catch (err) {
-      return { error: 'Could not update customer' };
+      return { error: 'Could not update appointment' };
     }
   }
 }

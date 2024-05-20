@@ -16,9 +16,13 @@ import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
 import { fetchTodaysAppointments } from 'actions/appointments';
 import CancelAppointmentButton from '@/components/appointments/buttons/cancelAppointmentButton';
 import UpdateAppointmentButton from '../buttons/updateAppointmentButton';
+import { Appointment } from '@/lib/db/appointments';
+import { convertToLocaleDate } from '@/lib/utils';
 
 export default async function AppointmentsTable() {
-  const appointments = await fetchTodaysAppointments();
+  // @ts-ignore
+  const appointments: Appointment[] | { error: any } =
+    await fetchTodaysAppointments();
 
   return (
     <div className="border rounded-lg overflow-hidden">
@@ -35,9 +39,10 @@ export default async function AppointmentsTable() {
         <TableBody>
           {Array.isArray(appointments) &&
             appointments.map((appointment, i) => {
-              const date = new Date(appointment.arrivalDate);
-              const time = date.getTime();
-              console.log('time ', time);
+              const { date, time } = convertToLocaleDate(
+                appointment.arrivalDate
+              );
+
               return (
                 <TableRow key={`appointment-details-${i}`}>
                   <TableCell>
@@ -63,9 +68,9 @@ export default async function AppointmentsTable() {
                   </TableCell>
                   <TableCell>{appointment?.service}</TableCell>
                   <TableCell>
-                    <div>{date.toDateString()}</div>
+                    <div>{date}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {date.toLocaleTimeString()}
+                      {time}
                     </div>
                   </TableCell>
                   <TableCell>

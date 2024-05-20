@@ -23,13 +23,27 @@ import {
 import { Appointment } from '@/lib/db/appointments';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
+import { updateAppointmentInfo } from 'actions/appointments';
+
+export type UpdateAppointment = { id: string } & Appointment;
 
 export default function UpdateAppointmentButton({
   appointment
 }: {
-  appointment: Appointment;
+  appointment: UpdateAppointment;
 }) {
+  const updateAppointmentWithId = updateAppointmentInfo.bind(
+    null,
+    appointment?.id
+  );
   const [open, setOpen] = useState(false);
+  const [appointmentState, updateAppAction] = useFormState(
+    updateAppointmentWithId,
+    null
+  );
+
+  const date = new Date(appointment.arrivalDate);
+  const time = date.getTime();
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
@@ -45,21 +59,35 @@ export default function UpdateAppointmentButton({
             Update the appointment details as needed.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <form action={updateAppAction} className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="pet-name">Pet Name</Label>
-              <Input defaultValue="Buddy" id="pet-name" />
+              <Input
+                name="petName"
+                defaultValue={appointment.petName}
+                id="pet-name"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="pet-type">Breed</Label>
-              <Input defaultValue={appointment.breed} id="breed" />
+              <Input name="breed" defaultValue={appointment.breed} id="breed" />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="new-pet">New Pet</Label>
+              <Select defaultValue={appointment.newPet} name="newPet" required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Is this pet new?" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="true">yes</SelectItem>
+                  <SelectItem value="false">no</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="service">Service</Label>
-              <Select defaultValue="boarding" name="service">
+              <Select defaultValue={appointment.service} name="service">
                 <SelectTrigger>
                   <SelectValue placeholder="Select service" />
                 </SelectTrigger>
@@ -71,27 +99,77 @@ export default function UpdateAppointmentButton({
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="arrival-date">Arrival Date</Label>
-              <Input defaultValue="2023-05-22" id="arrival-date" type="date" />
+              <Label htmlFor="owner-first-name">Owner First Name</Label>
+              <Input
+                defaultValue={appointment.ownerFirstName}
+                name="ownerFirstName"
+                id="owner-first-name"
+                placeholder="Enter owner first name"
+                required
+              />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="owner-last-name">Owner Last Name</Label>
+              <Input
+                defaultValue={appointment.ownerLastName}
+                name="ownerLastName"
+                id="owner-last-name"
+                placeholder="Enter owner last name"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone</Label>
+              <Input
+                defaultValue={appointment.phoneNumber}
+                name="phoneNumber"
+                id="phone"
+                placeholder="Enter phone number"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="arrival-date">Arrival Date</Label>
+              <Input
+                defaultValue={date.toString()}
+                id="arrival-date"
+                type="date"
+                name="arrivalDate"
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="arrival-time">Arrival Time</Label>
-              <Input defaultValue="10:00" id="arrival-time" type="time" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="details">Details</Label>
-              <Textarea defaultValue="Nail trim, bath" id="details" />
+              <Input
+                name="arrivalTime"
+                defaultValue={time}
+                id="arrival-time"
+                type="time"
+              />
             </div>
           </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={() => setOpen(!open)} variant="outline">
-            Cancel
-          </Button>
-          <Button>Save Changes</Button>
-        </DialogFooter>
+          <div className="grid gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="details">Details</Label>
+              <Textarea
+                name="details"
+                defaultValue={appointment.details}
+                id="details"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setOpen(!open)} variant="outline">
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              formAction={updateAppAction}
+              // onClick={() => setOpen(!open)}
+            >
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

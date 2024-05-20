@@ -63,18 +63,6 @@ export default function NewAppointmentForm() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="new-pet">New Pet</Label>
-                <Select name="newPet" required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Is this pet new?" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="true">yes</SelectItem>
-                    <SelectItem value="false">no</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
                 <Label htmlFor="owner-first-name">Owner First Name</Label>
                 <Input
                   name="ownerFirstName"
@@ -89,6 +77,27 @@ export default function NewAppointmentForm() {
                   name="ownerLastName"
                   id="owner-last-name"
                   placeholder="Enter owner last name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-pet">New Pet</Label>
+                <Select name="newPet" required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Is this pet new?" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">yes</SelectItem>
+                    <SelectItem value="false">no</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  name="phoneNumber"
+                  id="phone"
+                  placeholder="Enter phone number"
                   required
                 />
               </div>
@@ -124,24 +133,15 @@ export default function NewAppointmentForm() {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4">
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
-                <Input
-                  name="phoneNumber"
-                  id="phone"
-                  placeholder="Enter phone number"
-                  required
+                <Label htmlFor="details">Details</Label>
+                <Textarea
+                  rows={10}
+                  name="details"
+                  id="details"
+                  placeholder="Enter additional details"
                 />
-                <div className="space-y-2">
-                  <Label htmlFor="details">Details</Label>
-                  <Textarea
-                    rows={10}
-                    name="details"
-                    id="details"
-                    placeholder="Enter additional details"
-                  />
-                </div>
               </div>
             </div>
             <DialogFooter className="py-4">
