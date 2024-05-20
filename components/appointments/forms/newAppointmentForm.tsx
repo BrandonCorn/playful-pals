@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { createAppointment } from 'actions/appointments';
 import { useFormState } from 'react-dom';
 import { usePathname } from 'next/navigation';
+import { PlusIcon } from '@/components/icons';
 
 export default function NewAppointmentForm() {
   const path = usePathname();
@@ -36,7 +37,10 @@ export default function NewAppointmentForm() {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button size="sm">New Appointment</Button>
+          <Button size="sm">
+            <PlusIcon className="mr-2 h-4 w-4" />
+            New Appointment
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

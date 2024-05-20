@@ -16,27 +16,10 @@ export function Appointments() {
   return (
     <main className="flex-1 p-6">
       <div className="flex justify-between items-center mb-6">
-        <NewAppointmentForm />
         <Button variant="outline">
-          <Link href="/dashboard/appointments/pastAppointments">
-            Appointment History
-          </Link>
+          <Link href="#">Appointment History</Link>
         </Button>
-        <div className="flex items-center gap-2">
-          <Label className="sr-only" htmlFor="search">
-            Search
-          </Label>
-          <Input
-            className="max-w-xs"
-            id="search"
-            placeholder="Search appointments..."
-            type="search"
-          />
-          <Button size="sm" variant="outline">
-            <FilterIcon className="h-4 w-4" />
-            Filter
-          </Button>
-        </div>
+        <div className="flex items-center gap-2"></div>
       </div>
       <Suspense>
         <AppointmentsTable />
