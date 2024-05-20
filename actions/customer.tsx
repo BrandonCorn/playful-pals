@@ -123,7 +123,12 @@ const updateCustomerSchema = z.object({
     .email({ message: 'Must provide a valid email' })
 });
 
-export async function updateCustomerInfo(state: any, formData: FormData) {
+export async function updateCustomerInfo(
+  data: { path: string },
+  state: any,
+  formData: FormData
+) {
+  const { path } = data;
   const results = updateCustomerSchema.safeParse({
     firstName: formData.get('firstName'),
     lastName: formData.get('lastName'),
@@ -145,7 +150,7 @@ export async function updateCustomerInfo(state: any, formData: FormData) {
       if (!updatedCustomer) {
         return { error: 'Could not update customer' };
       }
-      revalidatePath('/dashboard/customers/[email]', 'page');
+      revalidatePath(path, 'page');
       return updatedCustomer;
     } catch (err) {
       return { error: 'Could not update customer' };

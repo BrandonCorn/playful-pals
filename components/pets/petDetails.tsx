@@ -27,6 +27,8 @@ import {
 import { ChevronUpIcon, ChevronDownIcon } from 'lucide-react';
 import { useFormState } from 'react-dom';
 import { Pets, updatePetInfo } from 'actions/pet';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 export default function PetDetails({
   children,
@@ -35,13 +37,15 @@ export default function PetDetails({
   children: React.ReactNode;
   pet: Pets;
 }) {
-  const updatePetWithId = updatePetInfo.bind(null, pet.id);
+  const path = usePathname();
+  const updatePetWithId = updatePetInfo.bind(null, { petId: pet.id, path });
   const [petState, updatePetAction] = useFormState(updatePetWithId, null);
+  const [open, setOpen] = useState(false);
   let dialog;
 
   return (
     <div>
-      <Dialog>
+      <Dialog open={open} onOpenChange={() => setOpen(!open)}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -160,11 +164,14 @@ export default function PetDetails({
                 </Select>
               </div>
             </div>
-            <DialogClose asChild>
-              <DialogFooter>
-                <Button formAction={updatePetAction}>Update Pet</Button>
-              </DialogFooter>
-            </DialogClose>
+            <DialogFooter>
+              <Button
+                onClick={() => setOpen(!open)}
+                formAction={updatePetAction}
+              >
+                Update Pet
+              </Button>
+            </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>

@@ -16,10 +16,13 @@ import { Input } from '@/components/ui/input';
 import { Customers } from '@/lib/schema';
 import { useFormState, useFormStatus } from 'react-dom';
 import { updateCustomerInfo } from 'actions/customer';
+import { usePathname } from 'next/navigation';
 
 export default function CustomerInfo({ customer }: { customer: Customers }) {
+  const path = usePathname();
+  const updateCustomerInfoAction = updateCustomerInfo.bind(null, { path });
   const [customerState, updateCustomerAction] = useFormState(
-    updateCustomerInfo,
+    updateCustomerInfoAction,
     null
   );
   const { pending } = useFormStatus();

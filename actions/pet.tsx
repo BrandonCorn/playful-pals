@@ -120,10 +120,11 @@ export async function getAllPets() {
 }
 
 export async function updatePetInfo(
-  petId: string,
+  data: { petId: string; path: string },
   state: any,
   formData: FormData
 ) {
+  const { petId, path } = data;
   const results = addPetSchema.safeParse({
     name: formData.get('name'),
     type: formData.get('type'),
@@ -145,7 +146,7 @@ export async function updatePetInfo(
       if (!updatedPet) {
         return { error: 'No pet updated' };
       } else {
-        revalidatePath('/dashboard/customers/[email]', 'page');
+        revalidatePath(path, 'page');
         return updatedPet;
       }
     } catch (err) {
