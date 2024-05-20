@@ -24,6 +24,7 @@ import { Appointment } from '@/lib/db/appointments';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { updateAppointmentInfo } from 'actions/appointments';
+import { convertToLocaleDate } from '@/lib/utils';
 
 // export type UpdateAppointment = { id: string } & Appointment;
 
@@ -45,8 +46,9 @@ export default function UpdateAppointmentButton({
     null
   );
 
-  const date = new Date(appointment.arrivalDate);
-  const time = date.getTime();
+  const { date, time } = convertToLocaleDate(appointment.arrivalDate);
+  let [newTime, meridian] = time.split(' ');
+  newTime = newTime.charAt(1) === ':' ? `0${newTime}` : newTime;
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
@@ -138,7 +140,7 @@ export default function UpdateAppointmentButton({
             <div className="space-y-2">
               <Label htmlFor="arrival-date">Arrival Date</Label>
               <Input
-                defaultValue={date.toLocaleDateString()}
+                defaultValue={date}
                 id="arrival-date"
                 type="date"
                 name="arrivalDate"
@@ -148,7 +150,7 @@ export default function UpdateAppointmentButton({
               <Label htmlFor="arrival-time">Arrival Time</Label>
               <Input
                 name="arrivalTime"
-                defaultValue={time}
+                defaultValue={newTime}
                 id="arrival-time"
                 type="time"
               />

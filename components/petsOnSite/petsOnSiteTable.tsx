@@ -14,7 +14,7 @@ import {
   Table
 } from '@/components/ui/table';
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
-import UpdatePetServiceForm from './forms/UpdatePetService';
+import UpdatePetServiceForm from './forms/updatePetServiceForm';
 import { selectCheckedInAppointments } from '@/lib/db/appointments';
 import { convertToLocaleDate } from '@/lib/utils';
 
@@ -42,13 +42,13 @@ export default async function PetsOnSiteTable() {
             </TableHeader>
             <TableBody>
               {Array.isArray(services) &&
-                services.map((service) => {
+                services.map((service, i) => {
                   const { date, time } = convertToLocaleDate(
                     // @ts-ignore we know departure date exists because required for check in
                     service?.departureDate
                   );
                   return (
-                    <TableRow>
+                    <TableRow key={`new-service-key${i}`}>
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="w-10 h-10">

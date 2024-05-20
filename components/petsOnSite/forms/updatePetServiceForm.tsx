@@ -26,6 +26,9 @@ export default function UpdatePetServiceForm({
 }) {
   const [open, setOpen] = useState(false);
   const { date, time } = convertToLocaleDate(service.departureDate);
+  let [newTime, meridian] = time.split(' ');
+  newTime = newTime.charAt(1) === ':' ? `0${newTime}` : newTime;
+
   return (
     <div>
       <Dialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -57,7 +60,7 @@ export default function UpdatePetServiceForm({
               <div className="space-y-2">
                 <Label htmlFor="new-departure-time">Departure Time</Label>
                 <Input
-                  defaultValue={time}
+                  defaultValue={newTime}
                   name="departureTime"
                   id="new-departure-time"
                   type="time"
