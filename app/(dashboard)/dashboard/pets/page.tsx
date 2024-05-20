@@ -7,13 +7,13 @@ import {
   PaginationContent,
   Pagination
 } from '@/components/ui/pagination';
-import CustomerMenu from '@/components/menus/customerMenu';
 import PetsTable from '@/components/pets/petTable';
+import PetsMenu from '@/components/menus/petsMenu';
 
 export default function PetsPage() {
   return (
     <div className="flex h-full w-full flex-col">
-      <CustomerMenu />
+      <PetsMenu />
       {/* @ts-ignore */}
       <PetsTable />
       <div className="flex justify-center border-t bg-gray-100 px-6 py-4 dark:border-gray-800 dark:bg-gray-950">
