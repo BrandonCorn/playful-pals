@@ -166,7 +166,7 @@ export async function updateAppointmentInfo(
     newPet: formData.get('newPet'),
     breed: formData.get('breed')
   });
-  console.log(results);
+
   if (results.error) {
     return { error: results.error.flatten().fieldErrors };
   } else {
@@ -177,12 +177,13 @@ export async function updateAppointmentInfo(
       arrivalDate: newArrivalDate,
       ...appointment
     };
-
+    console.log('updated appointment ', appointmentId);
     try {
       const updatedAppointment = await updateAppointment(
         appointmentId,
         newAppointment
       );
+      console.log('updated appointment ', updatedAppointment);
       if (!updatedAppointment) {
         return { error: 'Could not update customer' };
       }

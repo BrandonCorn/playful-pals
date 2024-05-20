@@ -137,7 +137,6 @@ export async function updatePetInfo(
     fixed: formData.get('fixed')
   });
   if (!results.success) {
-    console.log(results.error.flatten().fieldErrors);
     return { error: results.error.flatten().fieldErrors };
   } else {
     try {

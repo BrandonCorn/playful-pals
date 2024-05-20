@@ -18,12 +18,25 @@ import { useState } from 'react';
 import { ServiceInfo } from '@/lib/db/serviceInfo';
 import { convertToLocaleDate, formatInputDatesDefaultValue } from '@/lib/utils';
 import UpdateAppointmentButton from '@/components/appointments/forms/updateAppointmentButton';
+import { usePathname } from 'next/navigation';
+import { updatePetServiceInfo } from 'actions/serviceInfo';
+import { useFormState } from 'react-dom';
 
 export default function UpdatePetServiceForm({
   service
 }: {
   service: ServiceInfo;
 }) {
+  const path = usePathname();
+  const updatePetServiceInfoWithData = updatePetServiceInfo.bind(null, {
+    path,
+    serviceInfoId: service.id
+  });
+  const [petServiceState, updatePetServiceAction] = useFormState(
+    updatePetServiceInfoWithData,
+    null
+  );
+
   const [open, setOpen] = useState(false);
   const { date, time } = convertToLocaleDate(service.departureDate);
   const { newDate, newTime } = formatInputDatesDefaultValue(
@@ -47,7 +60,7 @@ export default function UpdatePetServiceForm({
               Edit your pets service details
             </DialogDescription>
           </DialogHeader>
-          <form>
+          <form action={updatePetServiceAction}>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="new-departure-date">Departure Date</Label>
@@ -144,10 +157,15 @@ export default function UpdatePetServiceForm({
                 Cancel
               </Button>
               <UpdateAppointmentButton
-                appointment={service as any}
+                appointment={{ ...service, id: service.appointmentId } as any}
                 buttonTitle="Update appointment"
               />
-              <Button onClick={() => setOpen(!open)}>Save Changes</Button>
+              <Button
+                formAction={updatePetServiceAction}
+                onClick={() => setOpen(!open)}
+              >
+                Save Changes
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

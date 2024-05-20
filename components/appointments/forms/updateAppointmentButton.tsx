@@ -175,7 +175,7 @@ export default function UpdateAppointmentButton({
             <Button
               type="submit"
               formAction={updateAppAction}
-              // onClick={() => setOpen(!open)}
+              onClick={() => setOpen(!open)}
             >
               Save Changes
             </Button>

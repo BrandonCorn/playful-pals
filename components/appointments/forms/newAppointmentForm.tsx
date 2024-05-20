@@ -32,7 +32,6 @@ export default function NewAppointmentForm() {
     null
   );
 
-  console.log('appointment ', appointment);
   return (
     <div>
       <Dialog>
