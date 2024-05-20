@@ -145,11 +145,11 @@ const updateAppointmentSchema = z.object({
 });
 
 export async function updateAppointmentInfo(
-  appointmentId: string,
+  data: { appointmentId: string; path: string },
   state: any,
   formData: FormData
 ) {
-  console.log('got here ');
+  const { appointmentId, path } = data;
   const results = updateAppointmentSchema.safeParse({
     petName: formData.get('petName'),
     ownerFirstName: formData.get('ownerFirstName'),
@@ -182,7 +182,7 @@ export async function updateAppointmentInfo(
       if (!updatedAppointment) {
         return { error: 'Could not update customer' };
       }
-      revalidatePath('/dashboard/appointments');
+      revalidatePath(path);
       return updatedAppointment;
     } catch (err) {
       return { error: 'Could not update appointment' };

@@ -25,8 +25,7 @@ import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { updateAppointmentInfo } from 'actions/appointments';
 import { convertToLocaleDate, formatInputDatesDefaultValue } from '@/lib/utils';
-
-// export type UpdateAppointment = { id: string } & Appointment;
+import { usePathname } from 'next/navigation';
 
 export default function UpdateAppointmentButton({
   buttonTitle,
@@ -35,11 +34,12 @@ export default function UpdateAppointmentButton({
   appointment: Appointment;
   buttonTitle?: string;
 }) {
+  const path = usePathname();
   const appointmentId = appointment?.id || '';
-  const updateAppointmentWithId = updateAppointmentInfo.bind(
-    null,
-    appointmentId
-  );
+  const updateAppointmentWithId = updateAppointmentInfo.bind(null, {
+    appointmentId,
+    path
+  });
   const [open, setOpen] = useState(false);
   const [appointmentState, updateAppAction] = useFormState(
     updateAppointmentWithId,
