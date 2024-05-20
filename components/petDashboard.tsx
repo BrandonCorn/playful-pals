@@ -4,8 +4,6 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 
-import { Input } from '@/components/ui/input';
-import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card';
 import PetsOnSite from './petsOnSite/petsOnSiteCard';
 import FinancialsCard from './financials/financialsCard';
 
