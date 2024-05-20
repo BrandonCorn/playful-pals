@@ -42,6 +42,10 @@ export default function MainNavigation() {
               <PawPrintIcon className="h-4 w-4" />
               Pets
             </NavItem>
+            <NavItem href="/dashboard/pets/onsite">
+              <PawPrintIcon className="h-4 w-4" />
+              Onsite
+            </NavItem>
             <NavItem href="/dashboard/financials">
               <LandmarkIcon className="h-4 w-4" />
               Financials

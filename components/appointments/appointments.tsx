@@ -7,18 +7,16 @@ import { Button } from '@/components/ui/button';
 import { FilterIcon } from '../icons';
 import NewAppointmentForm from './forms/newAppointmentForm';
 import AppointmentsTable from './table/appointmentsTable';
+import AppointmentsMenu from '../menus/appointmentsMenu';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Search } from '@/components/search';
 import { Suspense } from 'react';
 import Link from 'next/link';
 
 export function Appointments() {
   return (
     <div className="flex flex-col h-full">
-      <header className="bg-gray-100 dark:bg-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h1 className="text-2xl font-bold">Upcoming Appointments</h1>
-      </header>
+      {/* <AppointmentsMenu /> */}
       <main className="flex-1 p-6">
         <div className="flex justify-between items-center mb-6">
           <NewAppointmentForm />
