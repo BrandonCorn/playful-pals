@@ -1,4 +1,3 @@
-import { Input } from '@/components/ui/input';
 import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card';
 import {
   SelectValue,
@@ -9,6 +8,7 @@ import {
 } from '@/components/ui/select';
 import PetsOnSiteTable from './petsOnSiteTable';
 import NewAppointmentForm from '../appointments/forms/newAppointmentForm';
+import { Search } from '../search';
 
 export default function PetsOnSiteCard() {
   return (
@@ -26,11 +26,7 @@ export default function PetsOnSiteCard() {
               <SelectItem value="service">Service</SelectItem>
             </SelectContent>
           </Select>
-          <Input
-            className="w-full bg-white shadow-none appearance-none pl-4 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
-            placeholder="Search pets"
-            type="search"
-          />
+          <Search placeholder="Search pets..." searchUrl="/dashboard" />
 
           <NewAppointmentForm />
         </div>

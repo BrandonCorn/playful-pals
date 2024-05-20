@@ -80,7 +80,7 @@ export default async function PetsOnSiteTable() {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <UpdatePetServiceForm />
+                          <UpdatePetServiceForm service={service as any} />
                           <Button className="ml-2">Check Out</Button>
                         </div>
                       </TableCell>

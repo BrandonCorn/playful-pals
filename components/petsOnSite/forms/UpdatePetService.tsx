@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   DialogTrigger,
@@ -10,94 +12,141 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectItem,
-  SelectContent,
-  Select
-} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { PencilIcon } from '@/components/icons';
+import { useState } from 'react';
+import { ServiceInfo } from '@/lib/db/serviceInfo';
+import { convertToLocaleDate } from '@/lib/utils';
+import UpdateAppointmentButton from '@/components/appointments/forms/updateAppointmentButton';
 
-export default function UpdatePetServiceForm() {
+export default function UpdatePetServiceForm({
+  service
+}: {
+  service: ServiceInfo;
+}) {
+  const [open, setOpen] = useState(false);
+  const { date, time } = convertToLocaleDate(service.departureDate);
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size="icon" variant="outline">
-          <PencilIcon className="h-4 w-4" />
-          <span className="sr-only">Edit pet</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Edit Pet</DialogTitle>
-          <DialogDescription>
-            Update the pet details as needed.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="pet-name">Pet Name</Label>
-              <Input defaultValue="Buddy" id="pet-name" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="pet-type">Pet Type</Label>
-              <Input defaultValue="Golden Retriever" id="pet-type" />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="service">Service</Label>
-              <Select defaultValue="grooming" name="service">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select service" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="grooming">Grooming</SelectItem>
-                  <SelectItem value="boarding">Boarding</SelectItem>
-                  <SelectItem value="daycare">Daycare</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="departure-date">Departure Date</Label>
-              <Input
-                defaultValue="2023-05-22"
-                id="departure-date"
-                type="date"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="arrival-time">Arrival Time</Label>
-              <Input defaultValue="10:00" id="arrival-time" type="time" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="details">Details</Label>
-              <Textarea defaultValue="Nail trim, bath" id="details" />
-            </div>
-          </div>
-        </div>
-        <DialogFooter>
-          <Button variant="outline">Cancel</Button>
-          <Button>
-            <div>
-              <div>
-                <div className="fixed bottom-4 right-4 z-50">
-                  <div>
-                    <div>Pet Updated</div>
-                    <div>The pet details have been successfully updated.</div>
-                  </div>
-                </div>
+    <div>
+      <Dialog open={open} onOpenChange={() => setOpen(!open)}>
+        <DialogTrigger asChild>
+          <Button size="icon" variant="outline">
+            <PencilIcon className="h-4 w-4" />
+            <span className="sr-only">Edit pet</span>
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Services</DialogTitle>
+            <DialogDescription>
+              Edit your pets service details
+            </DialogDescription>
+          </DialogHeader>
+          <form>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="new-departure-date">Departure Date</Label>
+                <Input
+                  defaultValue={date}
+                  name="departureDate"
+                  id="new-departure-date"
+                  type="date"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-departure-time">Departure Time</Label>
+                <Input
+                  defaultValue={time}
+                  name="departureTime"
+                  id="new-departure-time"
+                  type="time"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-breakfast">Breakfast</Label>
+                <Input
+                  defaultValue={service.breakfast}
+                  name="breakfast"
+                  id="new-breakfast"
+                  placeholder="breakfast"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-lunch">Lunch</Label>
+                <Input
+                  defaultValue={service.lunch}
+                  name="lunch"
+                  id="new-lunch"
+                  placeholder="lunch"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="new-dinner">Dinner</Label>
+                <Input
+                  defaultValue={service.dinner}
+                  name="dinner"
+                  id="new-dinner"
+                  placeholder="dinner"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-cubby">cubby</Label>
+                <Input
+                  defaultValue={service.cubby}
+                  name="cubby"
+                  id="new-cubby"
+                  placeholder="cubby"
+                />
               </div>
             </div>
-            Save Changes
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            <div className="grid gap-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="new-medicine">Medicine Instructions</Label>
+                <Textarea
+                  defaultValue={service.medicine}
+                  rows={7}
+                  name="medicine"
+                  id="new-medicine"
+                  placeholder="Please enter medicine instructions"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-belongings">Belongings</Label>
+                <Textarea
+                  defaultValue={service.belongings}
+                  rows={7}
+                  name="belongings"
+                  id="new-belongings"
+                  placeholder="Please enter pets belongings"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="details">Special Instructions</Label>
+                <Textarea
+                  defaultValue={service.details}
+                  rows={7}
+                  name="details"
+                  id="details"
+                  placeholder="Enter additional instructions or details"
+                />
+              </div>
+            </div>
+            <DialogFooter className="py-4">
+              <Button onClick={() => setOpen(!open)} variant="outline">
+                Cancel
+              </Button>
+              <UpdateAppointmentButton
+                appointment={service as any}
+                buttonTitle="Update appointment"
+              />
+              <Button onClick={() => setOpen(!open)}>Save Changes</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

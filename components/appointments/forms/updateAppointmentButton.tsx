@@ -28,9 +28,11 @@ import { updateAppointmentInfo } from 'actions/appointments';
 // export type UpdateAppointment = { id: string } & Appointment;
 
 export default function UpdateAppointmentButton({
+  buttonTitle,
   appointment
 }: {
   appointment: Appointment;
+  buttonTitle?: string;
 }) {
   const appointmentId = appointment?.id || '';
   const updateAppointmentWithId = updateAppointmentInfo.bind(
@@ -48,10 +50,14 @@ export default function UpdateAppointmentButton({
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
-        <Button size="icon" variant="outline">
-          <PencilIcon className="h-4 w-4" />
-          <span className="sr-only">Edit appointment</span>
-        </Button>
+        {!buttonTitle ? (
+          <Button size="icon" variant="outline">
+            <PencilIcon className="h-4 w-4" />
+            <span className="sr-only">Edit appointment</span>
+          </Button>
+        ) : (
+          <Button>{buttonTitle}</Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
