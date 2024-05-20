@@ -23,8 +23,9 @@ export function formatDateForStorage(date: string, time: string){
 
 export function convertToLocaleDate(utcDate: Date) {
   const newDate = new Date(utcDate);
+  const time = new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000)
   return {
     date: newDate.toLocaleDateString(),
-    time: newDate.toLocaleTimeString(),
+    time: time.toLocaleTimeString(),
   }
 }
