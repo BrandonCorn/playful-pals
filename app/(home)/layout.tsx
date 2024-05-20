@@ -2,6 +2,7 @@ import '../globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import Footer from '@/components/footer';
 
@@ -28,6 +29,8 @@ export default async function RootLayout({
   }
   return (
     <html lang="en" className="h-full">
+      <SpeedInsights />
+
       <body>
         {children}
         <Footer />
